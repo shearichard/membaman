@@ -1,0 +1,54 @@
+*.py[cod]
+
+# Database   ===========================================
+./db  
+db/  
+data
+# Virtual env===========================================
+venv
+# autoenv (https://github.com/kennethreitz/autoenv) ====
+.env
+# pretend email server
+fake-email-server
+
+# Vim==================================================
+*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
