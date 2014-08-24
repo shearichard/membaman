@@ -1,6 +1,7 @@
 Django==1.7c3
 argparse==1.2.1
 django-secure==1.0
+django-waffle==0.10
 flake8==2.2.2
 mccabe==0.2.1
 pep8==1.5.7
