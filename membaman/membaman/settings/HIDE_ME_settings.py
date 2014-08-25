@@ -9,7 +9,23 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+from os.path import abspath, basename, dirname, join, normpath
+from sys import path
+
+
+########## PATH CONFIGURATION
+# Absolute filesystem path to the Django project directory:
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+
+# Absolute filesystem path to the top-level project folder:
+SITE_ROOT = dirname(DJANGO_ROOT)
+
+# Site name:
+SITE_NAME = basename(DJANGO_ROOT)
+
+#Path to SQLITE file
+DBDIR = join(SITE_ROOT,"..","db")
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -17,7 +33,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$-w+7p9chn$vnet!m9=!guz*w5yo5e7k4s#03c3_6@vfq0_gdj'
+SECRET_KEY = r"{{ secret_key }}"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -36,6 +36,18 @@ browser.quit()
 display.stop()
 ```
 
+Environment Variables
+-------------------
+Using `autoenv` to set a ENV VAR of SECRET_KEY when we cd into membaman. Longer term need a better solution.
+
+Use printenv to confirm the SECRET_KEY is set correctly.
+
+Running Instructions
+-------------------
+```
+python manage.py runserver  --settings=membaman.settings.local 0.0.0.0:8000
+```
+
 Version
 --------
 0.0.1
