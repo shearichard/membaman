@@ -206,7 +206,7 @@ DJANGO_APPS = (
 )
 
 THIRD_PARTY_APPS = (
-    'django-extensions',
+    'django_extensions',
 )
 
 # Apps specific for this project go here.
