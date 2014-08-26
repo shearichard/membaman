@@ -205,7 +205,9 @@ DJANGO_APPS = (
     # 'django.contrib.admindocs',
 )
 
-THIRD_PARTY_APPS = ()
+THIRD_PARTY_APPS = (
+    'django-extensions',
+)
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
