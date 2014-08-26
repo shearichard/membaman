@@ -76,11 +76,13 @@ class Caregiver(Person):
         (SIBLING , 'Sibling') ,
         (OTHER , 'Other') ,
     )
+
     family = models.ForeignKey(Family)
     phone_mobile= models.CharField(max_length=20)
     email= models.CharField(max_length=50)
     relationship = models.CharField(max_length=2,
-                                    choices=RELATIONSHIP_TYPE_CHOICES)
+                                    choices=RELATIONSHIP_TYPE_CHOICES,
+                                    default=OTHER)
 
     def __unicode__(self):
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
@@ -92,8 +94,23 @@ class Member(Person):
     class Meta:
         ordering = ['name_given', 'name_family']
 
+    KEA = 'KE'
+    CUB = 'CU'
+    SCOUT = 'SC'
+    VENTURER = 'VE'
+    UNKNOWN = 'UK'
+    MEMBERSHIP_TYPE_CHOICES = (
+        (KEA , 'Kea'), 
+        (CUB , 'Cub'),
+        (SCOUT , 'Scout'),
+        (VENTURER , 'Venturer'),
+        (UNKNOWN , 'Unknown'),
+    )
     organistion = models.ForeignKey(Organisation)
     sub_organistion = models.ForeignKey(SubOrganisation)
+    membership_type = models.CharField(max_length=2,
+                                    choices=MEMBERSHIP_TYPE_CHOICES,
+                                    default=UNKNOWN)
     family = models.ForeignKey(Family)
     primary_caregiver = models.ForeignKey(Caregiver, related_name='primary_caregiver')
     caregivers = models.ManyToManyField(Caregiver, related_name='caregivers')
