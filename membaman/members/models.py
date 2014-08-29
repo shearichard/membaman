@@ -26,7 +26,7 @@ class SubOrganisation(models.Model):
     organistion = models.ForeignKey(Organisation)
 
     def __unicode__(self):
-        return unicode(self.sub_name)
+        return unicode(self.sub_name) + unicode(' (') +  unicode(self.organistion.name) + unicode(')')
 
 class Family(models.Model):
     '''
