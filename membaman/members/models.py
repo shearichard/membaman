@@ -23,10 +23,10 @@ class SubOrganisation(models.Model):
         ordering = ['sub_name']
 
     sub_name = models.CharField(max_length=50)
-    organistion = models.ForeignKey(Organisation)
+    organisation = models.ForeignKey(Organisation)
 
     def __unicode__(self):
-        return unicode(self.sub_name) + unicode(' (') +  unicode(self.organistion.name) + unicode(')')
+        return unicode(self.sub_name) + unicode(' (') +  unicode(self.organisation.name) + unicode(')')
 
 class Family(models.Model):
     '''
@@ -106,7 +106,7 @@ class Member(Person):
         (VENTURER , 'Venturer'),
         (UNKNOWN , 'Unknown'),
     )
-    organistion = models.ForeignKey(Organisation)
+    organisation = models.ForeignKey(Organisation)
     sub_organistion = models.ForeignKey(SubOrganisation)
     membership_type = models.CharField(max_length=2,
                                     choices=MEMBERSHIP_TYPE_CHOICES,
