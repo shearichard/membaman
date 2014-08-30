@@ -1,10 +1,7 @@
-from data.djangoconvdata import lstHeaders
-from data.djangoconvdata import lstDics
-
 import hashlib
-
 import tempfile
 import os
+
 def makeTempDir():
     path2dir = tempfile.mkdtemp()
     return path2dir
@@ -16,31 +13,12 @@ def getTempPath(fName, dPath=None):
     fullpath = os.path.join(path2dir,fName)
     return fullpath
 
-
-
-
-
-lstDicsHashed = []
-for d in lstDics:
-    dout = d
-    lsthash = []
-    lsthash.append(d['D.O.B'])
-    lsthash.append(d['First name'])
-    lsthash.append(d['Last name'])
-    hashinputcand = "|".join(lsthash)
-    m = hashlib.md5()
-    m.update(hashinputcand)
-    hashcand = m.hexdigest()
-    dout['hash'] = hashcand
-    lstDicsHashed.append(dout)
-
-keylist = []
-hashlist = []
-unique_em = {}
-unique_mobm = {}
-unique_mobd = {}
-
 def update_unique_counts(din, dcount,  k):
+    '''
+    Add an element keyed on `k` with a value
+    of 1 or increment an element keyed on `k`
+    by 1
+    '''
     if din[k] in dcount:
         dcount[din[k]] += 1
     else:
@@ -61,54 +39,6 @@ def cull_unique_counts(dcount,  lowerlimit):
     for k in lst_keys_to_del:
         del dcount[k]
 
-
-for d in lstDicsHashed:
-    if d['e-Mail'] == "":
-        print "X" + " " + d['hash']
-    lsthash = []
-    lsthash.append(d['D.O.B'])
-    lsthash.append(d['First name'])
-    lsthash.append(d['Last name'])
-    hashinputcand = "|".join(lsthash)
-    m = hashlib.md5()
-    m.update(hashinputcand)
-    hashcand = m.hexdigest()
-    if hashcand in hashlist:
-        print "Y"
-    else:
-        hashlist.append(hashcand)
-
-    update_unique_counts(d, unique_em, 'e-Mail')
-    update_unique_counts(d, unique_mobd, 'Mobile (dad)')
-    update_unique_counts(d, unique_mobm, 'Mobile (mum)')
-
-    for k in d.keys():
-        if k in keylist:
-            pass
-        else:
-            keylist.append(k)
-
-def dupd(d, k):
-    d[k] = d[k] ** 2
-
-d = {'a':1, 'b':2, 'c':3}
-
-print d
-dupd(d, 'b')
-print d
-
-import pprint
-cull_unique_counts(unique_em, 1)
-cull_unique_counts(unique_mobd, 1)
-cull_unique_counts(unique_mobm, 1)
-pprint.pprint(unique_em)
-pprint.pprint(unique_mobd)
-pprint.pprint(unique_mobm)
-'''
-keylist.sort()
-pprint.pprint(keylist)
-print hashlist
-'''
 
 def family_hash(lst):
     lsthash = []
@@ -135,13 +65,13 @@ def family_hash(lst):
 
 def write_caregiver(f, d, theidx, familyidx):
     cm1='''    members_caregiver_{idx} = Caregiver()'''
-    cm2='''    members_caregiver_{idx}.name_given = u'{firstname}''''
-    cm3='''    members_caregiver_{idx}.name_family = u'{lastname}''''
-    cm4='''    members_caregiver_{idx}.family = members_family_{family_idx}'''
-    cm5='''    members_caregiver_{idx}.phone_mobile = u'{mobile}''''
-    cm6='''    members_caregiver_{idx}.email = u'{e-mail}''''
-    cm7='''    members_caregiver_{idx}.relationship = u'{reltype}''''
-    cm8='''    members_caregiver_{idx} = importer.save_or_locate(members_caregiver_{idx})'''
+    cm2='''    members_caregiver_{idx}.name_given = u'{firstname}' '''
+    cm3='''    members_caregiver_{idx}.name_family = u'{lastname}' '''
+    cm4='''    members_caregiver_{idx}.family = members_family_{family_idx} '''
+    cm5='''    members_caregiver_{idx}.phone_mobile = u'{mobile}' '''
+    cm6='''    members_caregiver_{idx}.email = u'{e-mail}' '''
+    cm7='''    members_caregiver_{idx}.relationship = u'{reltype}' '''
+    cm8='''    members_caregiver_{idx} = importer.save_or_locate(members_caregiver_{idx}) '''
 
     f.write(c1.format(idx=theidx))
     f.write('\n')
@@ -188,21 +118,3 @@ def write_family(f, d, theidx):
     f.write('\n')
     f.write('\n')
 
-import pdb
-
-famdic = {}
-fam_out = getTempPath("famout")
-with open(fam_out, 'w') as f:
-    thefamilyidx = 1
-    for d in lstDics:
-        famhsh = family_hash([d['Street'].strip().lower()])
-        if famhsh in famdic:
-            print d['Street'] 
-        else:
-            famdic[famhsh] = None
-            write_family(f, d, thefamilyidx)
-            thefamilyidx += 1
-
-
-    
-print fam_out
