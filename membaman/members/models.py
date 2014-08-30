@@ -36,6 +36,7 @@ class Family(models.Model):
     class Meta:
         ordering = ['street_address', 'suburb','city']
 
+    organisation = models.ForeignKey(Organisation)
     street_address = models.CharField(max_length=75)
     suburb = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
