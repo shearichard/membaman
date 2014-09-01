@@ -12,11 +12,15 @@ from djangoconvutil import getTempPath
 from djangoconvutil import update_unique_counts
 from djangoconvutil import cull_unique_counts
 from djangoconvutil import family_hash
-from djangoconvutil import caregiver_hash
+from djangoconvutil import caregiver_hash_mum
+from djangoconvutil import caregiver_hash_dad
 from djangoconvutil import write_caregivers
 from djangoconvutil import write_family
 from djangoconvutil import write_preamble
+from djangoconvutil import write_member
 from djangoconvutil import CareGiver 
+from djangoconvutil import find_family_idx_from_hash
+from djangoconvutil import find_primary_caregiver_idx_from_hash
  
 
 lstDicsHashed = []
@@ -38,8 +42,12 @@ hashlist = []
 unique_em = {}
 unique_mobm = {}
 unique_mobd = {}
+memtype_dic ={}
 
 for d in lstDicsHashed:
+    if d['Member'] not in memtype_dic:
+        memtype_dic[d['Member']] = None
+
     if d['e-Mail'] == "":
         print "X" + " " + d['hash']
     lsthash = []
@@ -82,27 +90,37 @@ with open(fam_out, 'w') as f:
     write_preamble(f, strGroupName)
     thefamilyidx = 1
     thecaregiveridx = 1
+    thememberidx = 1
     for d in lstDics:
-        fam_hsh = family_hash([d['Street'].strip().lower()])
-        cg_mum_hsh = caregiver_hash([d['Mum'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
-        cg_dad_hsh = caregiver_hash([d['Dad'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
+        #fam_hsh = family_hash([d['Street'].strip().lower()])
+        fam_hsh = family_hash(d)
+        cg_mum_hsh = caregiver_hash_mum(d)
+        cg_dad_hsh = caregiver_hash_dad(d)
         if fam_hsh in famdic:
             print d['Street'] 
         else:
-            famdic[fam_hsh] = None
+            famdic[fam_hsh] = thefamilyidx
             write_family(f, d, thefamilyidx, strCityName)
+            primarycgidx = None
             if cg_mum_hsh in cgdic:
                 print d['Mum']
             else:
-                write_caregivers(f, d, thecaregiveridx, -1, thefamilyidx, CareGiver.Mum)
+                cgdic[cg_mum_hsh] = thecaregiveridx
+                write_caregivers(f, d, thecaregiveridx, -1, find_family_idx_from_hash(d, famdic), CareGiver.Mum)
                 thecaregiveridx += 1
             if cg_mum_hsh in cgdic:
                 print d['Dad']
             else:
-                write_caregivers(f, d, thecaregiveridx, -1, thefamilyidx, CareGiver.Dad)
+                cgdic[cg_dad_hsh] = thecaregiveridx
+                write_caregivers(f, d, thecaregiveridx, -1, find_family_idx_from_hash(d, famdic), CareGiver.Dad)
                 thecaregiveridx += 1
             thefamilyidx += 1
+
+        write_member(f, d, thememberidx, find_family_idx_from_hash(d, famdic), find_primary_caregiver_idx_from_hash(d, cgdic))
+        thememberidx += 1
+
 
 
     
 print fam_out
+print memtype_dic

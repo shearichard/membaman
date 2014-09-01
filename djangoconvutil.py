@@ -50,11 +50,35 @@ def generic_hash(lst):
     hashcand = m.hexdigest()
     return hashcand
 
-def family_hash(lst):
-    return generic_hash(lst) 
+def family_hash(d):
+    fam_hsh = generic_hash([d['Street'].strip().lower()])
+    return fam_hsh
 
-def caregiver_hash(lst):
-    return generic_hash(lst) 
+def caregiver_hash_mum(d):
+    cg_mum_hsh = generic_hash([d['Mum'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
+    return cg_mum_hsh
+def caregiver_hash_dad(d):
+    cg_dad_hsh = generic_hash([d['Dad'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
+    return cg_dad_hsh
+
+def find_family_idx_from_hash(d, famdic):
+    fam_hsh = family_hash(d)
+    return famdic[fam_hsh]
+
+def find_primary_caregiver_idx_from_hash(d, cgdic):
+    cg_mum_hsh = caregiver_hash_mum(d)
+    cg_dad_hsh = caregiver_hash_dad(d)
+
+    outidx = None
+    if cg_mum_hsh in cgdic:
+        outidx = cgdic[cg_mum_hsh]
+    elif cg_dad_hsh in cgdic:
+        outidx = cgdic[cg_dad_hsh]
+    else:
+        outidx = None
+
+    return outidx
+    
 
 class CareGiver:
         Mum, Dad = range(2)
@@ -138,6 +162,87 @@ def write_family(f, d, theidx, cityname):
     f.write(f6.format(idx=theidx)) 
     f.write('\n')
     f.write("") 
+    f.write('\n')
+    f.write('\n')
+
+
+def write_member(f, d, theidx, familyidx, primarycgidx):
+
+    #m5='''    members_member_{idx}.sub_organistion = sub_organisation_{idx} '''
+
+    m1='''    members_member_{idx} = Member() '''
+    m2='''    members_member_{idx}.name_given = u'{namegiven}' '''
+    m3='''    members_member_{idx}.name_family = u'{namefamily}' '''
+    m4='''    members_member_{idx}.organisation = members_organisation_1 '''
+    m5='''    members_member_{idx}.sub_organistion = None '''
+    m6='''    members_member_{idx}.membership_type = u'{memtype}' '''
+    m7='''    members_member_{idx}.family = members_family_{famidx} '''
+    m8='''    members_member_{idx}.primary_caregiver = members_caregiver_{primarycgidx} '''
+    m9='''    members_member_{idx}.date_of_birth = dateutil.parser.parse('{dob}') '''
+    m10='''    members_member_{idx}.date_invested = dateutil.parser.parse('{dinv}') '''
+    m11='''    members_member_{idx} = importer.save_or_locate(members_member_1) '''
+
+    if d['Member'] == 'Venturer':
+        membertype = 'VE'
+    elif d['Member'] == 'Scout':
+        membertype = 'SC'
+    elif d['Member'] == 'Cub':
+        membertype = 'CU'
+    elif d['Member'] == 'Kea':
+        membertype = 'KE'
+    else:
+        raise Exception("Undefined membertype")
+
+    if d['D.O.B'] == "":
+        dob = None
+    else:
+        dob = None
+        lstdob = d['D.O.B'].split('/')
+        dob = lstdob[2] + '-' + lstdob[1] + '-' +  lstdob[0]
+
+    if d['Invested'] == "":
+        dinv = None
+    else:
+        #Hideous kludge to deal with one row
+        if d['Invested'] == "Nov-05":
+            lstinv = ["1","11","05"] 
+        else:
+            lstinv = d['Invested'].split('/')
+
+        dinv = None
+        lstinv = d['Invested'].split('/')
+        try:
+            dinv = lstinv[2] + '-' + lstinv[1] + '-' +  lstinv[0]
+        except:
+            print "!!!!!! "
+            print lstinv
+            print "!!!!!! "
+
+
+    f.write(m1.format(idx=theidx))
+    f.write('\n')
+    f.write(m2.format(idx=theidx, namegiven=d['First name'])) 
+    f.write('\n')
+    f.write(m3.format(idx=theidx, namefamily=d['Last name'])) 
+    f.write('\n')
+    f.write(m4.format(idx=theidx)) 
+    f.write('\n')
+    f.write(m5.format(idx=theidx)) 
+    f.write('\n')
+    f.write(m6.format(idx=theidx, memtype=membertype)) 
+    f.write('\n')
+    f.write(m7.format(idx=theidx, famidx=familyidx)) 
+    f.write('\n')
+    if primarycgidx:
+        f.write(m8.format(idx=theidx, primarycgidx=primarycgidx)) 
+        f.write('\n')
+    if dob:
+        f.write(m9.format(idx=theidx, dob=dob)) 
+        f.write('\n')
+    if dinv:
+        f.write(m10.format(idx=theidx, dinv=dinv)) 
+        f.write('\n')
+    f.write(m11.format(idx=theidx)) 
     f.write('\n')
     f.write('\n')
 
