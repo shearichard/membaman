@@ -5,13 +5,18 @@ import os
 
 from data.djangoconvdata import lstHeaders
 from data.djangoconvdata import lstDics
+from data.djangoconvdata import strGroupName 
+from data.djangoconvdata import strCityName 
 
 from djangoconvutil import getTempPath 
 from djangoconvutil import update_unique_counts
 from djangoconvutil import cull_unique_counts
 from djangoconvutil import family_hash
-from djangoconvutil import write_caregiver
+from djangoconvutil import caregiver_hash
+from djangoconvutil import write_caregivers
 from djangoconvutil import write_family
+from djangoconvutil import write_preamble
+from djangoconvutil import CareGiver 
  
 
 lstDicsHashed = []
@@ -71,16 +76,31 @@ pprint.pprint(unique_mobm)
 import pdb
 
 famdic = {}
+cgdic = {}
 fam_out = getTempPath("famout")
 with open(fam_out, 'w') as f:
+    write_preamble(f, strGroupName)
     thefamilyidx = 1
+    thecaregiveridx = 1
     for d in lstDics:
-        famhsh = family_hash([d['Street'].strip().lower()])
-        if famhsh in famdic:
+        fam_hsh = family_hash([d['Street'].strip().lower()])
+        cg_mum_hsh = caregiver_hash([d['Mum'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
+        cg_dad_hsh = caregiver_hash([d['Dad'].strip().lower(), d['Last name'].strip().lower(), d['Street'].strip().lower()])
+        if fam_hsh in famdic:
             print d['Street'] 
         else:
-            famdic[famhsh] = None
-            write_family(f, d, thefamilyidx)
+            famdic[fam_hsh] = None
+            write_family(f, d, thefamilyidx, strCityName)
+            if cg_mum_hsh in cgdic:
+                print d['Mum']
+            else:
+                write_caregivers(f, d, thecaregiveridx, -1, thefamilyidx, CareGiver.Mum)
+                thecaregiveridx += 1
+            if cg_mum_hsh in cgdic:
+                print d['Dad']
+            else:
+                write_caregivers(f, d, thecaregiveridx, -1, thefamilyidx, CareGiver.Dad)
+                thecaregiveridx += 1
             thefamilyidx += 1
 
 

@@ -40,7 +40,7 @@ def cull_unique_counts(dcount,  lowerlimit):
         del dcount[k]
 
 
-def family_hash(lst):
+def generic_hash(lst):
     lsthash = []
     for elem in lst:
         lsthash.append(elem)
@@ -50,42 +50,64 @@ def family_hash(lst):
     hashcand = m.hexdigest()
     return hashcand
 
-'''
-    members_family_1 = Family()
-    members_family_1.street_address = u'111 Acacia Avenue'
-    members_family_1.suburb = u'Strathmore'
-    members_family_1.city = u'Wellington'
-    members_family_1.phone_fixed = u'04 555 1111'
-    members_family_1 = importer.save_or_locate(members_family_1)
-'''
+def family_hash(lst):
+    return generic_hash(lst) 
 
-'''
+def caregiver_hash(lst):
+    return generic_hash(lst) 
 
-'''
+class CareGiver:
+        Mum, Dad = range(2)
 
-def write_caregiver(f, d, theidx, familyidx):
-    cm1='''    members_caregiver_{idx} = Caregiver()'''
-    cm2='''    members_caregiver_{idx}.name_given = u'{firstname}' '''
-    cm3='''    members_caregiver_{idx}.name_family = u'{lastname}' '''
-    cm4='''    members_caregiver_{idx}.family = members_family_{family_idx} '''
-    cm5='''    members_caregiver_{idx}.phone_mobile = u'{mobile}' '''
-    cm6='''    members_caregiver_{idx}.email = u'{e-mail}' '''
-    cm7='''    members_caregiver_{idx}.relationship = u'{reltype}' '''
-    cm8='''    members_caregiver_{idx} = importer.save_or_locate(members_caregiver_{idx}) '''
+def write_preamble(f, gname):
+
+    o1 = '''    members_organisation_1.name = u'{groupname}' '''
+
+    f.write('''    from members.models import Organisation ''')
+    f.write('\n')
+    f.write('''    members_organisation_1 = Organisation() ''')
+    f.write('\n')
+    f.write(o1.format(groupname=gname))
+    f.write('\n')
+    f.write('''    members_organisation_1 = importer.save_or_locate(members_organisation_1) ''')
+    f.write('\n')
+    f.write('\n')
+
+def write_caregivers(f, d, theidx, orgidx, familyidx, caregivertype):
+    c1='''    members_caregiver_{idx} = Caregiver()'''
+    c2='''    members_caregiver_{idx}.name_given = u'{firstname}' '''
+    c3='''    members_caregiver_{idx}.name_family = u'{lastname}' '''
+    c4='''    members_caregiver_{idx}.family = members_family_{family_idx} '''
+    c5='''    members_caregiver_{idx}.phone_mobile = u'{mobile}' '''
+    c6='''    members_caregiver_{idx}.email = u'{email}' '''
+    c7='''    members_caregiver_{idx}.relationship = u'{reltype}' '''
+    c8='''    members_caregiver_{idx} = importer.save_or_locate(members_caregiver_{idx}) '''
+
+    if caregivertype == CareGiver.Mum:
+        fname = d['Mum']
+        mob = d['Mobile (mum)']
+        rt = "MO"
+    elif caregivertype == CareGiver.Dad:
+        fname = d['Dad']
+        mob = d['Mobile (dad)']
+        rt = "FA"
+    else:
+        raise Exception("Undefined caregivertype")
+
 
     f.write(c1.format(idx=theidx))
     f.write('\n')
-    f.write(c2.format(idx=theidx, sa=d['Street'])) 
+    f.write(c2.format(idx=theidx, firstname=fname)) 
     f.write('\n')
-    f.write(c3.format(idx=theidx, suburb=d['Suburb'])) 
+    f.write(c3.format(idx=theidx, lastname=d['Last name'])) 
     f.write('\n')
-    f.write(c4.format(idx=theidx)) 
+    f.write(c4.format(idx=theidx, family_idx=familyidx)) 
     f.write('\n')
-    f.write(c5.format(idx=theidx, phone=d['Phone'])) 
+    f.write(c5.format(idx=theidx, mobile=mob)) 
     f.write('\n')
-    f.write(c6.format(idx=theidx)) 
+    f.write(c6.format(idx=theidx, email=d['e-Mail'])) 
     f.write('\n')
-    f.write(c7.format(idx=theidx)) 
+    f.write(c7.format(idx=theidx, reltype=rt)) 
     f.write('\n')
     f.write(c8.format(idx=theidx)) 
     f.write('\n')
@@ -93,12 +115,13 @@ def write_caregiver(f, d, theidx, familyidx):
     f.write('\n')
     f.write('\n')
 
-def write_family(f, d, theidx):
+def write_family(f, d, theidx, cityname):
 
     f1='''    members_family_{idx} = Family()'''
+    f1a='''    members_family_2.organisation = members_organisation_1 '''
     f2='''    members_family_{idx}.street_address = u'{sa}' '''
     f3='''    members_family_{idx}.suburb = u'{suburb}' '''
-    f4='''    members_family_{idx}.city = u'Wellington' '''
+    f4='''    members_family_{idx}.city = u'{city}' '''
     f5='''    members_family_{idx}.phone_fixed = u'{phone}' '''
     f6='''    members_family_{idx} = importer.save_or_locate(members_family_{idx}) '''
 
@@ -108,7 +131,7 @@ def write_family(f, d, theidx):
     f.write('\n')
     f.write(f3.format(idx=theidx, suburb=d['Suburb'])) 
     f.write('\n')
-    f.write(f4.format(idx=theidx)) 
+    f.write(f4.format(idx=theidx, city=cityname)) 
     f.write('\n')
     f.write(f5.format(idx=theidx, phone=d['Phone'])) 
     f.write('\n')
