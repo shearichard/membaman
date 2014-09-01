@@ -62,7 +62,7 @@ class Income(models.Model):
 
     subyear = models.ForeignKey(SubYear)
     member = models.ForeignKey(Member)
-    received = models.CharField(max_length=20)
+    received = models.CharField(max_length=50)
 
     def __unicode__(self):
         return unicode(self.received)
