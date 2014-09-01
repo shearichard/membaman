@@ -97,6 +97,217 @@ def write_preamble(f, gname):
     f.write('\n')
     f.write('\n')
 
+    f.write('''    fees_year_1 = Year() ''')
+    f.write('\n')
+    f.write('''    fees_year_1.organisation = members_organisation_1 ''')
+    f.write('\n')
+    f.write('''    fees_year_1.name = u'Calendar 2013' ''')
+    f.write('\n')
+    f.write('''    fees_year_1.start = dateutil.parser.parse("2013-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_year_1.end = dateutil.parser.parse("2013-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_year_1 = importer.save_or_locate(fees_year_1) ''')
+    f.write('\n')
+    f.write('''    fees_year_2 = Year() ''')
+    f.write('\n')
+    f.write('''    fees_year_2.organisation = members_organisation_1 ''')
+    f.write('\n')
+    f.write('''    fees_year_2.name = u'Calendar 2014' ''')
+    f.write('\n')
+    f.write('''    fees_year_2.start = dateutil.parser.parse("2014-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_year_2.end = dateutil.parser.parse("2014-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_year_2 = importer.save_or_locate(fees_year_2) ''')
+    f.write('\n')
+    f.write('''    fees_year_3 = Year() ''')
+    f.write('\n')
+    f.write('''    fees_year_3.organisation = members_organisation_1 ''')
+    f.write('\n')
+    f.write('''    fees_year_3.name = u'Calendar 2015' ''')
+    f.write('\n')
+    f.write('''    fees_year_3.start = dateutil.parser.parse("2015-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_year_3.end = dateutil.parser.parse("2015-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_year_3 = importer.save_or_locate(fees_year_3) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_13_1 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_1.year = fees_year_1 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_1.name = u'Term 1' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_1.start = dateutil.parser.parse("2013-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_1.end = dateutil.parser.parse("2013-03-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_1 = importer.save_or_locate(fees_subyear_13_1) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_13_2 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_2.year = fees_year_1 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_2.name = u'Term 2' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_2.start = dateutil.parser.parse("2013-04-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_2.end = dateutil.parser.parse("2013-06-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_2 = importer.save_or_locate(fees_subyear_13_2) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_13_3 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_3.year = fees_year_1 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_3.name = u'Term 3' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_3.start = dateutil.parser.parse("2013-07-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_3.end = dateutil.parser.parse("2013-09-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_3 = importer.save_or_locate(fees_subyear_13_3) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_13_4 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_4.year = fees_year_1 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_4.name = u'Term 4' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_4.start = dateutil.parser.parse("2013-08-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_4.end = dateutil.parser.parse("2013-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_13_4 = importer.save_or_locate(fees_subyear_13_4) ''')
+    f.write('\n')
+    f.write('\n')
+
+
+    f.write('''    fees_subyear_14_1 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_1.year = fees_year_2 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_1.name = u'Term 1' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_1.start = dateutil.parser.parse("2014-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_1.end = dateutil.parser.parse("2014-03-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_1 = importer.save_or_locate(fees_subyear_14_1) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_14_2 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_2.year = fees_year_2 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_2.name = u'Term 2' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_2.start = dateutil.parser.parse("2014-04-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_2.end = dateutil.parser.parse("2014-06-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_2 = importer.save_or_locate(fees_subyear_14_2) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_14_3 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_3.year = fees_year_2 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_3.name = u'Term 3' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_3.start = dateutil.parser.parse("2014-07-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_3.end = dateutil.parser.parse("2014-09-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_3 = importer.save_or_locate(fees_subyear_14_3) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_14_4 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_4.year = fees_year_2 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_4.name = u'Term 4' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_4.start = dateutil.parser.parse("2014-08-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_4.end = dateutil.parser.parse("2014-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_14_4 = importer.save_or_locate(fees_subyear_14_4) ''')
+    f.write('\n')
+    f.write('\n')
+
+
+
+    f.write('''    fees_subyear_15_1 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_1.year = fees_year_3 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_1.name = u'Term 1' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_1.start = dateutil.parser.parse("2015-01-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_1.end = dateutil.parser.parse("2015-03-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_1 = importer.save_or_locate(fees_subyear_15_1) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_15_2 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_2.year = fees_year_3 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_2.name = u'Term 2' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_2.start = dateutil.parser.parse("2015-04-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_2.end = dateutil.parser.parse("2015-06-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_2 = importer.save_or_locate(fees_subyear_15_2) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_15_3 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_3.year = fees_year_3 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_3.name = u'Term 3' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_3.start = dateutil.parser.parse("2015-07-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_3.end = dateutil.parser.parse("2015-09-30") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_3 = importer.save_or_locate(fees_subyear_15_3) ''')
+    f.write('\n')
+    f.write('\n')
+
+    f.write('''    fees_subyear_15_4 = SubYear() ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_4.year = fees_year_3 ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_4.name = u'Term 4' ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_4.start = dateutil.parser.parse("2015-08-01") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_4.end = dateutil.parser.parse("2015-12-31") ''')
+    f.write('\n')
+    f.write('''    fees_subyear_15_4 = importer.save_or_locate(fees_subyear_15_4) ''')
+    f.write('\n')
+    f.write('\n')
+
+
+
 def write_caregivers(f, d, theidx, orgidx, familyidx, caregivertype):
     c1='''    members_caregiver_{idx} = Caregiver()'''
     c2='''    members_caregiver_{idx}.name_given = u'{firstname}' '''
@@ -164,6 +375,104 @@ def write_family(f, d, theidx, cityname):
     f.write("") 
     f.write('\n')
     f.write('\n')
+
+
+
+def write_income_for(f, theidx, amount, memberidx, subyearlabel):
+    i1 = '''    fees_income_{idx} = Income() '''
+    i2 = '''    fees_income_{idx}.subyear = {syl} '''
+    i3 = '''    fees_income_{idx}.member = members_member_{memidx} '''
+    i4 = '''    fees_income_{idx}.received = u'{amount}' '''
+    i5 = '''    fees_income_{idx} = importer.save_or_locate(fees_income_{idx}) '''
+
+    f.write(i1.format(idx=theidx))
+    f.write('\n')
+    f.write(i2.format(idx=theidx, syl=subyearlabel))
+    f.write('\n')
+    f.write(i3.format(idx=theidx, memidx=memberidx))
+    f.write('\n')
+    f.write(i4.format(idx=theidx, amount=amount))
+    f.write('\n')
+    f.write(i5.format(idx=theidx))
+    f.write('\n')
+    f.write('\n')
+
+def write_income(f, d, theidx, memberidx):
+
+    if d['2013 Term1'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2013 Term1'], memberidx, 'fees_subyear_13_1')
+        theidx += 1
+
+    if d['2013 Term 2'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2013 Term 2'], memberidx, 'fees_subyear_13_2')
+        theidx += 1
+
+    if d['2013 Term 3'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2013 Term 3'], memberidx, 'fees_subyear_13_3')
+        theidx += 1
+
+    if d['2013 Term 4'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2013 Term 4'], memberidx, 'fees_subyear_13_4')
+        theidx += 1
+
+    if d['2014 Term1'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2014 Term1'], memberidx, 'fees_subyear_14_1')
+        theidx += 1
+
+    if d['2014 Term 2'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2014 Term 2'], memberidx, 'fees_subyear_14_2')
+        theidx += 1
+
+    if d['2014 Term 3'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2014 Term 3'], memberidx, 'fees_subyear_14_3')
+        theidx += 1
+
+    if d['2014 Term 4'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2014 Term 4'], memberidx, 'fees_subyear_14_4')
+        theidx += 1
+
+    if d['2015 Term1'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2015 Term1'], memberidx, 'fees_subyear_15_1')
+        theidx += 1
+
+    if d['2015 Term 2'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2015 Term 2'], memberidx, 'fees_subyear_15_2')
+        theidx += 1
+
+    if d['2015 Term 3'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2015 Term 3'], memberidx, 'fees_subyear_15_3')
+        theidx += 1
+
+    if d['2015 Term 4'] == "":
+        pass
+    else:
+        write_income_for(f, theidx, d['2015 Term 4'], memberidx, 'fees_subyear_15_4')
+        theidx += 1
+
+    return theidx
+
 
 
 def write_member(f, d, theidx, familyidx, primarycgidx):

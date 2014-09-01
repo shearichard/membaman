@@ -18,6 +18,7 @@ from djangoconvutil import write_caregivers
 from djangoconvutil import write_family
 from djangoconvutil import write_preamble
 from djangoconvutil import write_member
+from djangoconvutil import write_income
 from djangoconvutil import CareGiver 
 from djangoconvutil import find_family_idx_from_hash
 from djangoconvutil import find_primary_caregiver_idx_from_hash
@@ -91,6 +92,7 @@ with open(fam_out, 'w') as f:
     thefamilyidx = 1
     thecaregiveridx = 1
     thememberidx = 1
+    theincomeidx = 1
     for d in lstDics:
         #fam_hsh = family_hash([d['Street'].strip().lower()])
         fam_hsh = family_hash(d)
@@ -117,6 +119,7 @@ with open(fam_out, 'w') as f:
             thefamilyidx += 1
 
         write_member(f, d, thememberidx, find_family_idx_from_hash(d, famdic), find_primary_caregiver_idx_from_hash(d, cgdic))
+        theincomeidx = write_income(f, d, theincomeidx, thememberidx)
         thememberidx += 1
 
 
