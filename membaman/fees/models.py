@@ -19,7 +19,7 @@ class Year(models.Model):
     end = models.DateField()
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.name) + unicode(' (') +  unicode(self.organisation.name) + unicode(')')
 
 class SubYear(models.Model):
     '''
@@ -36,7 +36,7 @@ class SubYear(models.Model):
     
     '''
     class Meta:
-        ordering = ['start', 'end']
+        ordering = ['year__organisation__name','start', 'end']
 
     year = models.ForeignKey(Year)
     name = models.CharField(max_length=20)
@@ -44,7 +44,7 @@ class SubYear(models.Model):
     end = models.DateField()
 
     def __unicode__(self):
-        return unicode(self.name)
+        return unicode(self.name) + unicode(' (') +  unicode(self.year.organisation.name) + unicode(' - ') + unicode(self.year.name) + unicode(')')
 
 class Income(models.Model):
     '''
