@@ -107,7 +107,7 @@ class Member(Person):
         (UNKNOWN , 'Unknown'),
     )
     organisation = models.ForeignKey(Organisation)
-    sub_organistion = models.ForeignKey(SubOrganisation)
+    sub_organisation = models.ForeignKey(SubOrganisation)
     membership_type = models.CharField(max_length=2,
                                     choices=MEMBERSHIP_TYPE_CHOICES,
                                     default=UNKNOWN)
