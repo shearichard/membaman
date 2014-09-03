@@ -43,6 +43,14 @@ class SubYear(models.Model):
     start = models.DateField()
     end = models.DateField()
 
+    def year_name(self):
+        return self.year.name
+    year_name.short_description = 'Year Name'
+
+    def organisation_name(self):
+        return self.year.organisation
+    year_name.short_description = 'Organisation Name'
+
     def __unicode__(self):
         return unicode(self.name) + unicode(' (') +  unicode(self.year.organisation.name) + unicode(' - ') + unicode(self.year.name) + unicode(')')
 
@@ -58,11 +66,11 @@ class Income(models.Model):
     on a more typed form
     '''
     class Meta:
-        ordering = ['subyear__start', 'subyear__end']
+        ordering = ['member__name_family','member__name_given','subyear__start', 'subyear__end']
 
     subyear = models.ForeignKey(SubYear)
     member = models.ForeignKey(Member)
     received = models.CharField(max_length=100)
 
     def __unicode__(self):
-        return unicode(self.received)
+        return unicode(' (') + unicode(self.subyear.year.name) + unicode(' - ')+ unicode(self.subyear.name) + unicode(':') + unicode(self.member) + unicode(')') + unicode(self.received)

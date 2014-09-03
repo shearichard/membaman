@@ -60,7 +60,7 @@ class Caregiver(Person):
     `Caregiver` is someone who cares for a `Member`
     '''
     class Meta:
-        ordering = ['name_given', 'name_family']
+        ordering = ['name_family', 'name_given']
 
     MOTHER = 'MO'
     FATHER = 'FA'
@@ -92,7 +92,7 @@ class Member(Person):
     `Member` is a `Person` who directly participates in an `Organisation`
     '''
     class Meta:
-        ordering = ['name_given', 'name_family']
+        ordering = ['name_family', 'name_given']
 
     KEA = 'KE'
     CUB = 'CU'
