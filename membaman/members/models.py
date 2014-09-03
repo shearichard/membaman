@@ -114,8 +114,8 @@ class Member(Person):
     family = models.ForeignKey(Family)
     primary_caregiver = models.ForeignKey(Caregiver, related_name='primary_caregiver')
     caregivers = models.ManyToManyField(Caregiver, related_name='caregivers')
-    date_of_birth = models.DateField()
-    date_invested = models.DateField()
+    date_of_birth = models.DateField(null=True, blank=True)
+    date_invested = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
