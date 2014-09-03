@@ -25,6 +25,10 @@ class SubOrganisation(models.Model):
     sub_name = models.CharField(max_length=50)
     organisation = models.ForeignKey(Organisation)
 
+    def organisation_name(self):
+        return self.organisation.name
+    organisation_name.short_description = 'Organisation Name'
+
     def __unicode__(self):
         return unicode(self.sub_name) + unicode(' (') +  unicode(self.organisation.name) + unicode(')')
 

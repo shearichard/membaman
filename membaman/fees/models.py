@@ -49,7 +49,7 @@ class SubYear(models.Model):
 
     def organisation_name(self):
         return self.year.organisation
-    year_name.short_description = 'Organisation Name'
+    organisation_name.short_description = 'Organisation Name'
 
     def __unicode__(self):
         return unicode(self.name) + unicode(' (') +  unicode(self.year.organisation.name) + unicode(' - ') + unicode(self.year.name) + unicode(')')
