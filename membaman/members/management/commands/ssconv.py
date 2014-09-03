@@ -30,17 +30,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         org_id = 1
+        do_rollback = True 
         self.stdout.write('About to start conversion')
         with transaction.atomic():
-            for org_id in args:
-                try:
-                    org = Organisation.objects.get(pk=int(org_id))
-                except Organisation.DoesNotExist:
-                    raise CommandError('Organisation "%s" does not exist' % org_id)
-            #This is just to illustrate how to make a change rathern than suggesting
-            #this is a sensible change
-            org.name = org.name + org_id
-            self.save_or_locate(org)
-
-            self.stdout.write('Org Name =  "%s"' % org.name)
+            sid = transaction.savepoint()
+            members_organisation_1 = Organisation() 
+            members_organisation_1.name = u'Conversion Group' 
+            members_organisation_1 = self.save_or_locate(members_organisation_1) 
+            if do_rollback:
+                transaction.savepoint_rollback(sid)
+            else:
+                transaction.savepoint_commit(sid)
+            self.stdout.write('Org Name =  "%s"' % members_organisation_1.name)
 
