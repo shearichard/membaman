@@ -1,0 +1,8 @@
+<h1>Income</h1>
+<ul>
+{% for income in income_list %}
+    <li>{{ income.subyear }} - {{ income.received }}</li>
+{% empty %}
+    <li>No Income yet.</li>
+{% endfor %}
+</ul>

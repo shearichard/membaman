@@ -1,0 +1,32 @@
+{# .... **Normal content list, maybe a table** .... #}
+{% if income_list %}
+    <table id="cars">
+        {% for car in income_list %}
+            <tr>
+                <td>{{ car.model }}</td>
+                <td>{{ car.year }}</td>
+                <td><a href="/car/{{ car.id }}/" class="see_detail">detail</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {# .... **Now the pagination section** .... #}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/cars?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="/cars?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% else %}
+    <h3>My Cars</h3>
+    <p>No cars found!!! :(</p>
+{% endif %}
+{# .... **More content, footer, etc.** .... #}
