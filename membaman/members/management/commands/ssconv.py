@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from members.models import Organisation
@@ -29,17 +29,15 @@ class Command(BaseCommand):
         return the_obj
 
     def handle(self, *args, **options):
-        org_id = 1
-        do_rollback = True 
+        do_rollback = True
         self.stdout.write('About to start conversion')
         with transaction.atomic():
             sid = transaction.savepoint()
-            members_organisation_1 = Organisation() 
-            members_organisation_1.name = u'Conversion Group' 
-            members_organisation_1 = self.save_or_locate(members_organisation_1) 
+            members_organisation_1 = Organisation()
+            members_organisation_1.name = u'Conversion Group'
+            members_organisation_1 = self.save_or_locate(members_organisation_1)
             if do_rollback:
                 transaction.savepoint_rollback(sid)
             else:
                 transaction.savepoint_commit(sid)
             self.stdout.write('Org Name =  "%s"' % members_organisation_1.name)
-

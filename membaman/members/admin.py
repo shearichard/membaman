@@ -17,7 +17,7 @@ class SubOrganisationAdmin(admin.ModelAdmin):
 class CaregiverAdmin(admin.ModelAdmin):
         list_display = ['name_given', 'name_family', 'relationship']
 class MemberAdmin(admin.ModelAdmin):
-        list_display = ['name_given', 'name_family', 'organisation','sub_organisation', 'membership_type']
+        list_display = ['name_given', 'name_family', 'organisation', 'sub_organisation', 'membership_type']
         list_filter = ['organisation', 'sub_organisation', 'family']
 
 admin.site.register(Organisation)

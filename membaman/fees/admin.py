@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from fees.models import Year
-from fees.models import SubYear 
+from fees.models import SubYear
 from fees.models import Income
 
 class YearAdmin(admin.ModelAdmin):

@@ -2,7 +2,7 @@ from django.db import models
 
 class Organisation(models.Model):
     '''
-    An `Organisation` is an entity to which 
+    An `Organisation` is an entity to which
     `Member` belong
     '''
     class Meta:
@@ -15,9 +15,9 @@ class Organisation(models.Model):
 
 class SubOrganisation(models.Model):
     '''
-    A `SubOrganisation` is grouping within an 
+    A `SubOrganisation` is grouping within an
     `Organisation` to which a `Member` primarily
-    identifies 
+    identifies
     '''
     class Meta:
         ordering = ['sub_name']
@@ -30,7 +30,7 @@ class SubOrganisation(models.Model):
     organisation_name.short_description = 'Organisation Name'
 
     def __unicode__(self):
-        return unicode(self.sub_name) + unicode(' (') +  unicode(self.organisation.name) + unicode(')')
+        return unicode(self.sub_name) + unicode(' (') + unicode(self.organisation.name) + unicode(')')
 
 class Family(models.Model):
     '''
@@ -38,7 +38,7 @@ class Family(models.Model):
     more `Member`
     '''
     class Meta:
-        ordering = ['street_address', 'suburb','city']
+        ordering = ['street_address', 'suburb', 'city']
 
     street_address = models.CharField(max_length=75)
     suburb = models.CharField(max_length=30)
@@ -73,17 +73,17 @@ class Caregiver(Person):
     SIBLING = 'SI'
     OTHER = 'OT'
     RELATIONSHIP_TYPE_CHOICES = (
-        (MOTHER , 'Mother') ,
-        (FATHER , 'Father') ,
-        (GRANDMOTHER , 'Grandmother') ,
-        (GRANDFATHER , 'Grandfather') ,
-        (SIBLING , 'Sibling') ,
-        (OTHER , 'Other') ,
+        (MOTHER, 'Mother'),
+        (FATHER, 'Father'),
+        (GRANDMOTHER, 'Grandmother'),
+        (GRANDFATHER, 'Grandfather'),
+        (SIBLING, 'Sibling'),
+        (OTHER, 'Other'),
     )
 
     family = models.ForeignKey(Family)
-    phone_mobile= models.CharField(max_length=20)
-    email= models.CharField(max_length=50)
+    phone_mobile = models.CharField(max_length=20)
+    email = models.CharField(max_length=50)
     relationship = models.CharField(max_length=2,
                                     choices=RELATIONSHIP_TYPE_CHOICES,
                                     default=OTHER)
@@ -104,17 +104,17 @@ class Member(Person):
     VENTURER = 'VE'
     UNKNOWN = 'UK'
     MEMBERSHIP_TYPE_CHOICES = (
-        (KEA , 'Kea'), 
-        (CUB , 'Cub'),
-        (SCOUT , 'Scout'),
-        (VENTURER , 'Venturer'),
-        (UNKNOWN , 'Unknown'),
+        (KEA, 'Kea'),
+        (CUB, 'Cub'),
+        (SCOUT, 'Scout'),
+        (VENTURER, 'Venturer'),
+        (UNKNOWN, 'Unknown'),
     )
     organisation = models.ForeignKey(Organisation)
     sub_organisation = models.ForeignKey(SubOrganisation)
     membership_type = models.CharField(max_length=2,
-                                    choices=MEMBERSHIP_TYPE_CHOICES,
-                                    default=UNKNOWN)
+                                       choices=MEMBERSHIP_TYPE_CHOICES,
+                                       default=UNKNOWN)
     family = models.ForeignKey(Family)
     primary_caregiver = models.ForeignKey(Caregiver, related_name='primary_caregiver')
     caregivers = models.ManyToManyField(Caregiver, related_name='caregivers')
@@ -123,4 +123,3 @@ class Member(Person):
 
     def __unicode__(self):
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
-
