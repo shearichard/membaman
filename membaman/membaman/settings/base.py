@@ -232,7 +232,7 @@ EMAIL_FILE_PATH = join(SITE_ROOT, '../fake-email-server')
 LOGIN_REDIRECT_URL = 'http://localhost:8000/spellweb/'
 
 #django-crispy-forms configuration
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 ########## LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
