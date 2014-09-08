@@ -207,6 +207,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'django_extensions',
+    'crispy_forms',
 )
 
 # Apps specific for this project go here.
@@ -230,6 +231,8 @@ EMAIL_FILE_PATH = join(SITE_ROOT, '../fake-email-server')
 
 LOGIN_REDIRECT_URL = 'http://localhost:8000/spellweb/'
 
+#django-crispy-forms configuration
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ########## LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
