@@ -72,6 +72,14 @@ class Income(models.Model):
     member = models.ForeignKey(Member)
     received = models.CharField(max_length=100)
 
+    def year_name(self):
+        return self.subyear.year.name
+    year_name.short_description = 'Year Name'
+
+    def subyear_name(self):
+        return self.subyear.name
+    subyear_name.short_description = 'Sub-Year Name'
+
     def __unicode__(self):
         return unicode(' (') + unicode(self.subyear.year.name) + unicode(' - ') + \
             unicode(self.subyear.name) + unicode(':') + unicode(self.member) + \
