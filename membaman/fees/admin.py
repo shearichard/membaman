@@ -11,7 +11,7 @@ class YearAdmin(admin.ModelAdmin):
 
 class SubYearAdmin(admin.ModelAdmin):
         list_display = ['year_name', 'organisation_name', 'name', 'start', 'end']
-        list_filter = ['start']
+        list_filter = ['year__name', 'year__organisation']
 
 admin.site.register(Year, YearAdmin)
 admin.site.register(SubYear, SubYearAdmin)
