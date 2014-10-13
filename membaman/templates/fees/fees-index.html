@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>Fees Home Page</h2>
+
+<ol>
+    <li><a href="{% url 'fees:income-list' %}">Income List</a></li>
+    <li><a href="{% url 'membaman:index' %}">Membaman Home Page</a></li>
+</ol>
+
+{% endblock %}

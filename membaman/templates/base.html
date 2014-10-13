@@ -1,0 +1,38 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <link rel="stylesheet" href="/style.css" />
+    <link href="{{ STATIC_URL }}css/djrt2base.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+    <title>{% block title %}User test{% endblock %}</title>
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="header">
+            {% block header %}
+            THIS IS WHERE THE LOGOFF AND OTHER MENU LINKS GO
+            <hr />
+            {% endblock %}
+        </div>
+        <hr />
+        <div id="content span-20">
+            {% block content %}{% endblock %}
+        </div>
+        <div id="footer">
+            {% block footer %}
+            <hr />
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,4 +1,11 @@
-<h1>Income</h1>
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<a href="{% url 'membaman:index' %}">Membaman Home Page</a>|
+<a href="{% url 'fees:feesindex' %}">Fees Home Page</a>|
+<h2>Income</h2>
 <ul>
 {% for income in income_list %}
     <li>{{ income.subyear }} - {{ income.received }}</li>
@@ -6,3 +13,4 @@
     <li>No Income yet.</li>
 {% endfor %}
 </ul>
+{% endblock %}

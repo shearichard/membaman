@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+
+<form method="post" action="">
+{% csrf_token %}
+    <fieldset>
+         <legend>Record your Attempts</legend>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <p>Can you spell ?:
+            <span>{{ form.word.value }}</span>
+            <span>
+                <label for="{{ form.success.id_for_label }}">Success?:</label> 
+                <input id="{{ form.success.id_for_label }}" name="{{ form.success.html_name }}" type="checkbox" />
+            </span>
+            </p>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Submit Your Results" />
+</form>
+{% endblock %}
