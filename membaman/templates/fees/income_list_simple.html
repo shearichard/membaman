@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load fees_filter_year_tags %}
 
 {% block content %}
 
@@ -29,8 +30,17 @@
   }
   
 </style>
-
 <h2>Income</h2>
+{% income_year_select_content as income_years %}
+<form action="" method="get" accept-charset="utf-8">
+    <select name="year" id="year">
+        <option value="-1">Select a year</option>
+        {% for income_year in income_years %}
+            <option value="{{ income_year.id}}">{{ income_year.name }}</option>
+        {% endfor %}
+    </select>
+</form>
+
 {% if income_list %}
     <table class="inctab" id="income">
         <tr>
@@ -52,4 +62,5 @@
     <h3>No Income</h3>
     <p>No income found</p>
 {% endif %}
+
 {% endblock %}
