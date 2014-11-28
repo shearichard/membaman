@@ -7,4 +7,5 @@ from . import views
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='fees/fees-index.html'), name='feesindex'),
     url(r'^income-list/', views.IncomeListView.as_view(), name='income-list'),
+    url(r'^income-list-subyear/', views.IncomeListSubYearView.as_view(), name='income-list-subyear'),
 )

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load fees_filter_year_tags %}
+
+{% block content %}
+
+<a href="{% url 'membaman:index' %}">Membaman Home Page</a>|
+<a href="{% url 'fees:feesindex' %}">Fees Home Page</a>|
+
+<style>
+  table.inctab{
+    border-collapse: collapse;
+    border: 1px solid black;
+  }
+  table.inctab td, table.inctab th{
+    border: 1px solid black;
+    padding: 10px 20px;
+  }
+  table.inctab td.syon{
+    background-color: olive;
+  }
+  table.inctab td.syoff{
+    background-color: green;
+  }
+  table.inctab td.memon{
+    background-color: white;
+  }
+  table.inctab td.memoff{
+    background-color: grey;
+  }
+  
+</style>
+<h2>Income</h2>
+{% income_year_select_content as income_years %}
+<form action="" method="get" accept-charset="utf-8">
+    <select name="year" id="year">
+        <option value="-1">Select a year</option>
+        {% for income_year in income_years %}
+            <option value="{{ income_year.id}}">{{ income_year.name }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if income_list %}
+    <table class="inctab" id="income">
+        <tr>
+            <th>Year</th>
+            <th>Sub-Year</th>
+            <th>Member</th>
+            <th>Amount</th>
+        </tr>
+        {% for income in income_list %}
+            <tr>
+                <td>{{ income.year_name }}</td>
+                <td class = {{ income.subyearcssclass }}>{{ income.subyear_name}}</td>
+                <td class = {{ income.membercssclass }}>{{ income.member}}</td>
+                <td>{{ income.received }}</td>
+            <tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <h3>No Income</h3>
+    <p>No income found</p>
+{% endif %}
+
+{% endblock %}

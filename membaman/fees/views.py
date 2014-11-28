@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 
 from django.views.generic import ListView, DetailView, UpdateView
@@ -5,6 +7,12 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.core.urlresolvers import reverse
 
 from .models import Year, SubYear, Income
+from members.models import Member
+
+TEMP_ORG_NAME = 'Conversion Group'
+TEMP_CURRENT_YEAR = 'Calendar 2014'
+TEMP_CURR_YR_START = datetime(2013,1,1)
+TEMP_CURR_YR_FINISH = datetime(2013,12,31)
 
 class IncomeListView(ListView):
     model = Income
@@ -44,4 +52,35 @@ class IncomeListView(ListView):
             inc.membercssclass = MEMBER_CSS_CLASSES[current_member_class]
 
             
+        return qs_income
+
+class IncomeListSubYearView(ListView):
+    model = Income
+    template_name = 'fees/income_list_by_subyear.html'
+    context_object_name = "income_list"
+    paginate_by = 10
+
+    def get_queryset(self):
+        dic_out = {}
+        suby_order_list = []
+        mem_order_list = []
+
+        qs_subyear = SubYear.objects.filter(year__organisation__name=TEMP_ORG_NAME, start__gte=TEMP_CURR_YR_START, end__lte=TEMP_CURR_YR_FINISH).order_by('start')
+        qs_mem = Member.objects.filter(organisation__name=TEMP_ORG_NAME).order_by( 'name_family', 'family__id','name_given')
+
+        for suby in qs_subyear:
+            if suby.name not in dic_out:
+                dic_out[suby.name] = {}
+                suby_order_list.append(suby.name)
+            for mem in qs_mem:
+                if mem.id not in dic_out[suby.name]:
+                    dic_out[suby.name][mem.id] = {}
+                    mem_order_list.append(mem.id)
+
+                qs_income = Income.objects.filter(subyear=suby, member=mem).order_by('subyear__start')
+
+                for inc in qs_income:
+                    dic_out[suby.name][mem.id] = inc.received 
+
+
         return qs_income
