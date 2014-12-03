@@ -33,8 +33,8 @@
 <h2>Income</h2>
 {% income_year_select_content as income_years %}
 <form action="" method="get" accept-charset="utf-8">
-    <select name="year" id="year">
-        <option value="-1">Select a year</option>
+    <select name="year" id="year" onchange="this.form.submit()">
+        <option selected="selected" value="-1">Select a year</option>
         {% for income_year in income_years %}
             <option value="{{ income_year.id}}">{{ income_year.name }}</option>
         {% endfor %}

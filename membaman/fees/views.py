@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from django.shortcuts import render
 
@@ -10,15 +10,15 @@ from .models import Year, SubYear, Income
 from members.models import Member
 
 TEMP_ORG_NAME = 'Conversion Group'
-TEMP_CURRENT_YEAR = 'Calendar 2014'
-TEMP_CURR_YR_START = datetime(2013,1,1)
-TEMP_CURR_YR_FINISH = datetime(2013,12,31)
+TEMP_ORG_ID = 45 
+TEMP_CURR_YR_START = datetime.date(2013,1,1)
+TEMP_CURR_YR_FINISH = datetime.date(2013,12,31)
 
 class IncomeListView(ListView):
     model = Income
     template_name = 'fees/income_list_simple.html'
     context_object_name = "income_list"
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         '''
@@ -27,29 +27,48 @@ class IncomeListView(ListView):
         output background colours which enhance the meaning of 
         the data
         '''
+        year_id = self.request.GET.get('year', None)
+
+        if not year_id:
+            try:
+                obj_year = Year.objects.get(organisation=TEMP_ORG_ID, start__lte=datetime.datetime.now(), end__gte=datetime.datetime.now())
+            except Year.DoesNotExist:
+                lst_year = Year.objects.filter(organisation=TEMP_ORG_ID).order_by(start)
+                if lst_year:
+                    obj_year = lst_year[0]
+                else:
+                    #If this happens something else is broken
+                    raise
+            year_id = obj_year.id
+
         current_subyear_class = 0 
         current_member_class = 0    
         SUBYEAR_CSS_CLASSES = ['syon', 'syoff']
         MEMBER_CSS_CLASSES = ['memon', 'memoff']
 
         desc_order = False
-        qs_income = super(IncomeListView, self).get_queryset().order_by('member__name_family', 'member__name_given', 'subyear__start', 'subyear__end')
+        #qs_income = super(IncomeListView, self).filter(subyear__start__year=year).get_queryset().order('member__name_family', 'member__name_given', 'subyear__start', 'subyear__end')
+        qs_income = Income.objects.filter(subyear__year_id=year_id).order_by('member__name_family', 'member__name_given', 'subyear__start', 'subyear__end')
+        print qs_income
+        print year_id
+        
         if desc_order:
             qs_income = qs_income.reverse()
 
         #Setup some flags to drive colour banding in template
-        current_subyearid = qs_income[0].subyear.id
-        current_memberid = qs_income[0].member.id
-        for inc in qs_income:
-            if inc.subyear.id != current_subyearid:
-                current_subyearid = inc.subyear.id
-                current_subyear_class = 0 if current_subyear_class else 1
-            if inc.member.id != current_memberid:
-                current_memberid = inc.member.id
-                current_member_class = 0 if current_member_class else 1
+        if qs_income:
+            current_subyearid = qs_income[0].subyear.id
+            current_memberid = qs_income[0].member.id
+            for inc in qs_income:
+                if inc.subyear.id != current_subyearid:
+                    current_subyearid = inc.subyear.id
+                    current_subyear_class = 0 if current_subyear_class else 1
+                if inc.member.id != current_memberid:
+                    current_memberid = inc.member.id
+                    current_member_class = 0 if current_member_class else 1
 
-            inc.subyearcssclass = SUBYEAR_CSS_CLASSES[current_subyear_class]
-            inc.membercssclass = MEMBER_CSS_CLASSES[current_member_class]
+                inc.subyearcssclass = SUBYEAR_CSS_CLASSES[current_subyear_class]
+                inc.membercssclass = MEMBER_CSS_CLASSES[current_member_class]
 
             
         return qs_income
