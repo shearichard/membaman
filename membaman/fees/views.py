@@ -20,20 +20,13 @@ class IncomeListView(ListView):
     context_object_name = "income_list"
     paginate_by = 20
 
-    def get_queryset(self):
-        '''
-        Provide sortation to the QS and add some extra columns
-        to contain css class names to allow the template to
-        output background colours which enhance the meaning of 
-        the data
-        '''
+    def __default_yearid(self):
         year_id = self.request.GET.get('year', None)
-
         if not year_id:
             try:
-                obj_year = Year.objects.get(organisation=TEMP_ORG_ID, start__lte=datetime.datetime.now(), end__gte=datetime.datetime.now())
+                obj_year = Year.objects.get(organisation_id=TEMP_ORG_ID, start__lte=datetime.datetime.now(), end__gte=datetime.datetime.now())
             except Year.DoesNotExist:
-                lst_year = Year.objects.filter(organisation=TEMP_ORG_ID).order_by(start)
+                lst_year = Year.objects.filter(organisation_id=TEMP_ORG_ID).order_by(start)
                 if lst_year:
                     obj_year = lst_year[0]
                 else:
@@ -41,16 +34,35 @@ class IncomeListView(ListView):
                     raise
             year_id = obj_year.id
 
+        return year_id
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(IncomeListView, self).get_context_data(**kwargs)
+        # Add in a the year that's just been selected to allow us to 
+        # to select the correct element of the  the dropdown.
+        year_id = self.__default_yearid()
+        context['year_id'] = int(year_id)
+        return context
+
+    def get_queryset(self):
+        '''
+        Provide sortation to the QS and add some extra columns
+        to contain css class names to allow the template to
+        output background colours which enhance the meaning of 
+        the data
+        '''
+
+        year_id = self.__default_yearid()
+
         current_subyear_class = 0 
         current_member_class = 0    
         SUBYEAR_CSS_CLASSES = ['syon', 'syoff']
         MEMBER_CSS_CLASSES = ['memon', 'memoff']
 
         desc_order = False
-        #qs_income = super(IncomeListView, self).filter(subyear__start__year=year).get_queryset().order('member__name_family', 'member__name_given', 'subyear__start', 'subyear__end')
         qs_income = Income.objects.filter(subyear__year_id=year_id).order_by('member__name_family', 'member__name_given', 'subyear__start', 'subyear__end')
-        print qs_income
-        print year_id
         
         if desc_order:
             qs_income = qs_income.reverse()
