@@ -123,3 +123,6 @@ class Member(Person):
 
     def __unicode__(self):
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
+
+    def last_first_name(self):
+        return u', '.join((unicode(self.name_family), unicode(self.name_given)))
