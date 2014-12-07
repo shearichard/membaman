@@ -2,6 +2,10 @@ Introduction
 ------------
 This is membaman ! Beyond that I could not say.
 
+Use of bookkeeper 
+--------
+The version of bookkeeper used as at Dec 2014 is taken from https://github.com/shearichard/bookkeeper.git as there are some Django 1.7 specific fixes which I've made and which haven't yet been applied to the main repos at SwingTix/bookkeeper .
+
 Use of Selenium
 --------
 To facilitate the use of Selenium I installed Xvfb

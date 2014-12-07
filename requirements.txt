@@ -21,5 +21,6 @@ python-dateutil==2.3
 selenium==2.44.0
 six==1.8.0
 sqlparse==0.1.14
+swingtix-bookkeeper==0.0.1.1
 wmctrl==0.1
 wsgiref==0.1.2
