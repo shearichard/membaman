@@ -18,7 +18,7 @@ class IncomeListView(ListView):
     model = Income
     template_name = 'fees/income_list_simple.html'
     context_object_name = "income_list"
-    paginate_by = 20
+    paginate_by = 15
 
     def __default_yearid(self):
         year_id = self.request.GET.get('year', None)
