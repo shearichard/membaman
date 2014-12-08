@@ -11,7 +11,7 @@ class MemberListView(ListView):
     model = Member
     template_name = 'fees/member_list.html'
     context_object_name = "member_list"
-    paginate_by = 20
+    paginate_by = 15
 
 #    def get_queryset(self):
 #        '''
