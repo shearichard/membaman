@@ -48,6 +48,7 @@ Use printenv to confirm the SECRET_KEY is set correctly.
 
 Running Instructions
 -------------------
+Note to self: using `dj17` as virtualenv 
 ```
 python manage.py runserver  --settings=membaman.settings.local 0.0.0.0:8000
 ```
