@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^fees/', include('fees.urls', namespace="fees")),
     url(r'^members/', include('members.urls', namespace="members")),
     url(r'^membaman/', include('membaman.urls', namespace="membaman")),
+    url(r'^feedback', include('feedback.urls')),
 )

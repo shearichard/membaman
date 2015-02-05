@@ -145,6 +145,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'feedback.context_processors.feedback_form'
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
@@ -208,6 +209,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'django_extensions',
     'crispy_forms',
+    'feedback',
 )
 
 # Apps specific for this project go here.
@@ -233,6 +235,15 @@ LOGIN_REDIRECT_URL = 'http://localhost:8000/spellweb/'
 
 #django-crispy-forms configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap'
+
+#django-feedback config start
+FEEDBACK_CHOICES = (
+    ('bug', 'Bug'),
+    ('feature_request', 'Feature Request'),
+    ('question', 'Question')
+)
+ALLOW_ANONYMOUS_FEEDBACK=True
+#django-feedback config end
 
 ########## LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
