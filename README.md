@@ -6,6 +6,10 @@ Use of bookkeeper
 --------
 The version of bookkeeper used as at Dec 2014 is taken from https://github.com/shearichard/bookkeeper.git as there are some Django 1.7 specific fixes which I've made and which haven't yet been applied to the main repos at SwingTix/bookkeeper .
 
+Use of django-feedback
+--------
+The version of django-feedback used as at Feb 2015 is taken from https://github.com/shearichard/django-feedback.git .
+
 Use of Selenium
 --------
 To facilitate the use of Selenium I installed Xvfb
