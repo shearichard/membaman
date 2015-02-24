@@ -6,6 +6,7 @@ from members.models import SubOrganisation
 from members.models import Family
 from members.models import Caregiver
 from members.models import Member
+from members.admin_action import print_start_year_invoices
 
 class FamilyAdmin(admin.ModelAdmin):
         list_display = ['street_address', 'suburb', 'city', 'phone_fixed']
@@ -19,6 +20,7 @@ class CaregiverAdmin(admin.ModelAdmin):
 class MemberAdmin(admin.ModelAdmin):
         list_display = ['name_family', 'name_given', 'organisation', 'sub_organisation', 'membership_type']
         list_filter = ['organisation', 'sub_organisation', 'family']
+        actions = [print_start_year_invoices] 
 
 admin.site.register(Organisation)
 admin.site.register(SubOrganisation, SubOrganisationAdmin)

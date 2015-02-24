@@ -1,12 +1,13 @@
 Django==1.7.1
 EasyProcess==0.1.6
+Pillow==2.7.0
 PyVirtualDisplay==0.1.5
 Pygments==2.0.1
 argparse==1.2.1
 django-crispy-forms==1.4.0
 django-debug-toolbar==1.2.2
 django-extensions==1.5.0
-django-feedback==0.03 -e git+https://github.com/shearichard/django-feedback.git#egg=django-feedback
+-e git+https://github.com/shearichard/django-feedback.git@4b155bb5ca3e143e7037cc5a87b7d2432a9f6471#egg=django_feedback-master
 django-pdb==0.4.1
 django-secure==1.0.1
 django-waffle==0.10.1
@@ -19,6 +20,7 @@ psycopg2==2.6
 pyflakes==0.8.1
 pyrepl==0.8.4
 python-dateutil==2.4.0
+reportlab==3.1.44
 selenium==2.44.0
 six==1.9.0
 sqlparse==0.1.14
