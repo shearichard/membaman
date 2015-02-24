@@ -5,6 +5,7 @@ import tempfile
 import time
 import datetime
 import zipfile
+import csv
 try:
     import zlib
     COMPRESSION = zipfile.ZIP_DEFLATED
@@ -54,17 +55,30 @@ def print_start_year_invoices(modeladmin, request, queryset):
 
     print "print_start_year_invoices starts"
     
-    csv_invoice_manifest = BytesIO()
-
-    temp = tempfile.NamedTemporaryFile(prefix="membaman-startyear-invoices-", suffix="-%s.zip" % get_local_iso(), delete=False)
+    run_date_time = get_local_iso()
+    temp = tempfile.NamedTemporaryFile(prefix="membaman-startyear-invoices-", suffix="-%s.zip" % run_date_time, delete=False)
     pdf_paths = []
     with zipfile.ZipFile(temp, mode='w', compression=COMPRESSION) as zf:
-        for memb in queryset:
-            pdfbytes = make_start_year_invoice_pdf(memb)
-            zip_component_name = '%s-%s-%s.pdf' % (memb.name_given.replace(' ', '_').lower(), 
-                                                   memb.name_family.replace(' ', '_').lower(), 
-                                                   str(memb.id))
-            zf.writestr(zip_component_name, pdfbytes)
+        with BytesIO() as csvfile:
+            csv_invoice_manifest = csv.writer(csvfile)
+            csv_invoice_manifest.writerow(['''Family Name''',
+                                           '''Given Name''',
+                                           '''Member ID''',
+                                           '''PDF invoice file name''',
+                                           '''Email to send invoice to''' ])
+            for memb in queryset:
+                pdfbytes = make_start_year_invoice_pdf(memb)
+                zip_component_name = '%s-%s-%s.pdf' % (memb.name_given.replace(' ', '_').lower(), 
+                                                       memb.name_family.replace(' ', '_').lower(), 
+                                                       str(memb.id))
+                zf.writestr(zip_component_name, pdfbytes)
+                csv_invoice_manifest.writerow([memb.name_family, 
+                                               memb.name_given,
+                                               memb.id,
+                                               zip_component_name,
+                                               memb.primary_caregiver_email() ])
+
+            zf.writestr("Invoice-manifest-%s.csv" % run_date_time, csvfile.getvalue())
 
 
     temp.seek(0)
