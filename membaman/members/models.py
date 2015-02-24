@@ -126,3 +126,6 @@ class Member(Person):
 
     def last_first_name(self):
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
+
+    def primary_caregiver_email(self):
+        return unicode(self.primary_caregiver.email)
