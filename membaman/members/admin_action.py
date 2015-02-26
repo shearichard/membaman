@@ -24,12 +24,34 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
 from reportlab.lib.units import inch
+from reportlab.lib.units import mm, pica, inch 
+from reportlab.lib.colors import pink, black, red, blue, green, grey
+from reportlab.platypus import Paragraph, Frame
+from reportlab.platypus.flowables import HRFlowable, XBox, Spacer, Image 
+from reportlab.platypus.tables import Table, TableStyle
+from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, A4
 
 PAGE_HEIGHT=defaultPageSize[1]
 PAGE_WIDTH=defaultPageSize[0]
 styles = getSampleStyleSheet()
 Title = "Hello world"
 pageinfo = "platypus example"
+
+def makeFrame():
+    objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
+                    pageStructure['TOP']['OffsetFromBottom'], 
+                    pageStructure['TOP']['Width'], 
+                    pageStructure['TOP']['Height'], 
+                    leftPadding=0, 
+                    bottomPadding=0, 
+                    rightPadding=0, 
+                    topPadding=0, 
+                    id=None, 
+                    showBoundary=pageStructure['TOP']['ShowBorder'], 
+                    overlapAttachedSpace=None, 
+                    _debug=None)
 
 def myFirstPage(canvas, doc):
     canvas.saveState()
@@ -47,15 +69,18 @@ def myLaterPages(canvas, doc):
     
 def make_start_year_invoice_pdf_platypus(buffer):
 
-    doc = SimpleDocTemplate(buffer)
-    Story = [Spacer(1,2*inch)]
-    style = styles["Normal"]
-    for i in range(100):
-        bogustext = ("Paragraph number %s. " % i) *20
-        p = Paragraph(bogustext, style)
-        Story.append(p)
-        Story.append(Spacer(1,0.2*inch))
-    doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
+    from reportlab.lib.styles import getSampleStyleSheet
+    styles = getSampleStyleSheet()
+    styleN = styles['Normal']
+    styleH = styles['Heading1']
+    story = []
+    #add some flowables
+    story.append(Paragraph("This is a Heading",styleH))
+    for i in range(5):
+        the_para_txt = "This is paragraph number %d in <i>Normal</i> style." % i
+        story.append(Paragraph(the_para_txt,styleN))
+    doc = SimpleDocTemplate(buffer,pagesize = A4)
+    doc.build(story)
 
     pdfbytes = buffer.getvalue()
     buffer.close()
