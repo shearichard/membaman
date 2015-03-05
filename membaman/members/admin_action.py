@@ -32,12 +32,25 @@ from reportlab.platypus.tables import Table, TableStyle
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
+from reportlab.lib.units import mm, pica, inch 
+from reportlab.platypus import Paragraph, Frame
+from reportlab.platypus.flowables import HRFlowable, XBox, Spacer, Image 
+from reportlab.platypus.tables import Table, TableStyle
+from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
+from reportlab.lib.colors import HexColor, CMYKColor, PCMYKColor, Color
 
 PAGE_HEIGHT=defaultPageSize[1]
 PAGE_WIDTH=defaultPageSize[0]
 styles = getSampleStyleSheet()
 Title = "Hello world"
 pageinfo = "platypus example"
+ANNUALPAYINFULLTERMS = '''Pay in full by 31st March (discounted by 10%)'''
+ANNUALPAYINFULLAMOUNT = '''$898'''
+ANNUALPAYONETERMTERMS = '''Pay $99 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
+ANNUALPAYONETERMAMOUNT = '''$897'''
+ANNUALFEE = "$996"
+PAYOPTIONBANKTRANSFER = "Pay online into the Eastern Bay Scouts Group Account. Our bank account number is : 00000 00000. Please use your reference : %s ."
+PAYOPTIONBANKCHEQUE = "Some stuff about how to pay by cheque. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
 
 def makeFrame():
     objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
@@ -66,19 +79,86 @@ def myLaterPages(canvas, doc):
     canvas.setFont('Times-Roman', 9)
     canvas.drawString(inch, 0.75 * inch,"Page %d %s" % (doc.page, pageinfo))
     canvas.restoreState()
+
+
+def buildHowToPayTable(mem):    
+
+    data= [['How to pay ?', ''],
+           ['1.', Paragraph(PAYOPTIONBANKTRANSFER % (mem.id), styles['Normal'] )],
+           ['2.', Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), styles['Normal'])]]
+
+    t=Table(data,colWidths=(15*mm, None))
+    t.setStyle(TableStyle([('FONTNAME',        (0, 0),  (-1, 0),'Helvetica-Bold'),
+                           ('FONTSIZE',        (0, 0),  (-1, 0), 16),
+                           ('TOPPADDING',      (0, 0),  (-1, 0), 24), 
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 24), 
+                           ('TEXTCOLOR',       (0, 0),  (-1, 0), green), 
+                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica-Bold'),
+                           ('FONTSIZE',        (0, 1),  (-1, 1), 14),
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 24), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 24), 
+                           ('VALIGN',          (0, 1),  (-1, 1), 'TOP'), 
+                           ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
+                           ('BOX',             (0,0),   (-1,-1), 0.25, black),
+                          ]))
+    return t
+ 
+def buildPriceTable():
+    data= [["Annual Fee", "", ANNUALFEE],
+           ["Options", "", ""],
+           ['1.', ANNUALPAYINFULLTERMS, ANNUALPAYINFULLAMOUNT],
+           ['2.', ANNUALPAYONETERMTERMS, ANNUALPAYONETERMAMOUNT]]
     
-def make_start_year_invoice_pdf_platypus(buffer):
+    t=Table(data,colWidths=(15*mm, None, 30*mm))
+
+    t.setStyle(TableStyle([('FONTNAME',        (0, 0),  (-1, 0),'Helvetica-Bold'),
+                           ('FONTSIZE',        (0, 0),  (-1, 0), 16),
+                           ('TOPPADDING',      (0, 0),  (-1, 0), 24), 
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 24), 
+                           ('TEXTCOLOR',       (0, 0),  (-1, 0), green), 
+                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica-Bold'),
+                           ('FONTSIZE',        (0, 1),  (-1, 1), 14),
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 24), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 24), 
+                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica'),
+                           ('FONTSIZE',        (0, 1),  (-1, 1), 12),
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 9), 
+                           ('TEXTCOLOR',       (0, 1),  (-1, 1), red), 
+                           ('ALIGN',       (0, 1),  (-1, 1), 'DECIMAL'), 
+                           ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
+                           ('BOX',             (0,0),   (-1,-1), 0.25, black),
+                          ]))
+#    t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+#    ('TEXTCOLOR',(1,1),(-2,-2),red),
+#    ('VALIGN',(0,0),(0,-1),'TOP'),
+#    ('TEXTCOLOR',(0,0),(0,-1),blue),
+#    ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+#    ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+#    ('TEXTCOLOR',(0,-1),(-1,-1),green),
+#    ('INNERGRID', (0,0), (-1,-1), 0.25, black),
+#    ('BOX', (0,0), (-1,-1), 0.25, black),
+#    ]))
+
+    return t
+
+def make_start_year_invoice_pdf_platypus(buffer, mem):
 
     from reportlab.lib.styles import getSampleStyleSheet
     styles = getSampleStyleSheet()
     styleN = styles['Normal']
     styleH = styles['Heading1']
+    import pprint
+    pprint.pprint(styleN)
     story = []
     #add some flowables
-    story.append(Paragraph("This is a Heading",styleH))
-    for i in range(5):
-        the_para_txt = "This is paragraph number %d in <i>Normal</i> style." % i
-        story.append(Paragraph(the_para_txt,styleN))
+    story.append(Paragraph("EASTERN BAY SCOUTS GROUP INVOICE",styleH))
+    story.append(Paragraph("Hi and welcome to Scouts for 2015!",styleN))
+    story.append(buildPriceTable())
+    story.append(buildHowToPayTable(mem))
+    story.append(Paragraph("Thank you for your prompt payment",styleN))
+    story.append(Paragraph(get_local_iso(),styleN))
+
     doc = SimpleDocTemplate(buffer,pagesize = A4)
     doc.build(story)
 
@@ -101,7 +181,7 @@ def make_start_year_invoice_pdf(mem):
     use_platypus = True
 
     if use_platypus:
-        pdfbytes = make_start_year_invoice_pdf_platypus(buffer)
+        pdfbytes = make_start_year_invoice_pdf_platypus(buffer, mem)
     else:
         # Create the PDF object, using the BytesIO object as its "file."
         p = canvas.Canvas(buffer)
