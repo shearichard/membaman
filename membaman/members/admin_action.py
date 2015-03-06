@@ -83,7 +83,7 @@ def myLaterPages(canvas, doc):
 
 def buildHowToPayTable(mem):    
 
-    data= [['How to pay ?', ''],
+    data= [['How to pay ?'],
            ['1.', Paragraph(PAYOPTIONBANKTRANSFER % (mem.id), styles['Normal'] )],
            ['2.', Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), styles['Normal'])]]
 
@@ -98,18 +98,21 @@ def buildHowToPayTable(mem):
                            ('TOPPADDING',      (0, 1),  (-1, 1), 24), 
                            ('BOTTOMPADDING',   (0, 1),  (-1, 1), 24), 
                            ('VALIGN',          (0, 1),  (-1, 1), 'TOP'), 
+                           ('SPAN',            (0, 0),  (-1, 0)), 
                            ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
                            ('BOX',             (0,0),   (-1,-1), 0.25, black),
                           ]))
     return t
  
 def buildPriceTable():
-    data= [["Annual Fee", "", ANNUALFEE],
-           ["Options", "", ""],
-           ['1.', ANNUALPAYINFULLTERMS, ANNUALPAYINFULLAMOUNT],
-           ['2.', ANNUALPAYONETERMTERMS, ANNUALPAYONETERMAMOUNT]]
+    data= [[Paragraph("Annual Fee", styles['Normal']), "", Paragraph(ANNUALFEE, styles['Normal'])],
+           [Paragraph("Options", styles['Normal'])],
+           ['1.', Paragraph(ANNUALPAYINFULLTERMS, styles['Normal']), Paragraph(ANNUALPAYINFULLAMOUNT, styles['Normal'])],
+           ['2.', Paragraph(ANNUALPAYONETERMTERMS, styles['Normal']), Paragraph(ANNUALPAYONETERMAMOUNT, styles['Normal'])]]
     
     t=Table(data,colWidths=(15*mm, None, 30*mm))
+
+    #('ALIGN',       (0, 1),  (-1, 1), 'DECIMAL'), 
 
     t.setStyle(TableStyle([('FONTNAME',        (0, 0),  (-1, 0),'Helvetica-Bold'),
                            ('FONTSIZE',        (0, 0),  (-1, 0), 16),
@@ -125,7 +128,8 @@ def buildPriceTable():
                            ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
                            ('BOTTOMPADDING',   (0, 1),  (-1, 1), 9), 
                            ('TEXTCOLOR',       (0, 1),  (-1, 1), red), 
-                           ('ALIGN',       (0, 1),  (-1, 1), 'DECIMAL'), 
+                           ('SPAN',            (0, 0),  ( 1, 0)), 
+                           ('SPAN',            (0, 1),  (-1, 1)), 
                            ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
                            ('BOX',             (0,0),   (-1,-1), 0.25, black),
                           ]))
@@ -155,6 +159,7 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     story.append(Paragraph("EASTERN BAY SCOUTS GROUP INVOICE",styleH))
     story.append(Paragraph("Hi and welcome to Scouts for 2015!",styleN))
     story.append(buildPriceTable())
+    story.append(Spacer(width=10*mm, height=10*mm))
     story.append(buildHowToPayTable(mem))
     story.append(Paragraph("Thank you for your prompt payment",styleN))
     story.append(Paragraph(get_local_iso(),styleN))
