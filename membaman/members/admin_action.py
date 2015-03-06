@@ -21,7 +21,7 @@ from django.conf import settings
 # From the FAQ at reportlab.org/oss/rl-toolkit/faq/#1.1
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.rl_config import defaultPageSize
 from reportlab.lib.units import inch
 from reportlab.lib.units import mm, pica, inch 
@@ -81,88 +81,105 @@ def myLaterPages(canvas, doc):
     canvas.restoreState()
 
 
-def buildHowToPayTable(mem):    
+def buildHowToPayTable(mem, dic_styles):    
 
-    data= [['How to pay ?'],
-           ['1.', Paragraph(PAYOPTIONBANKTRANSFER % (mem.id), styles['Normal'] )],
-           ['2.', Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), styles['Normal'])]]
+    data= [[Paragraph('How to pay ?', dic_styles['BIG'])],
+           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.id), dic_styles['SMALL'])],
+           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), dic_styles['SMALL'])]]
 
-    t=Table(data,colWidths=(15*mm, None))
-    t.setStyle(TableStyle([('FONTNAME',        (0, 0),  (-1, 0),'Helvetica-Bold'),
-                           ('FONTSIZE',        (0, 0),  (-1, 0), 16),
-                           ('TOPPADDING',      (0, 0),  (-1, 0), 24), 
-                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 24), 
-                           ('TEXTCOLOR',       (0, 0),  (-1, 0), green), 
-                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica-Bold'),
-                           ('FONTSIZE',        (0, 1),  (-1, 1), 14),
-                           ('TOPPADDING',      (0, 1),  (-1, 1), 24), 
-                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 24), 
-                           ('VALIGN',          (0, 1),  (-1, 1), 'TOP'), 
+    t=Table(data,colWidths=(10*mm, None))
+    t.setStyle(TableStyle([
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 12), 
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 12), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 12), 
+                           ('VALIGN',          (0, 1),  (-1, -1), 'TOP'), 
                            ('SPAN',            (0, 0),  (-1, 0)), 
-                           ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
-                           ('BOX',             (0,0),   (-1,-1), 0.25, black),
                           ]))
     return t
  
-def buildPriceTable():
-    data= [[Paragraph("Annual Fee", styles['Normal']), "", Paragraph(ANNUALFEE, styles['Normal'])],
-           [Paragraph("Options", styles['Normal'])],
-           ['1.', Paragraph(ANNUALPAYINFULLTERMS, styles['Normal']), Paragraph(ANNUALPAYINFULLAMOUNT, styles['Normal'])],
-           ['2.', Paragraph(ANNUALPAYONETERMTERMS, styles['Normal']), Paragraph(ANNUALPAYONETERMAMOUNT, styles['Normal'])]]
+def buildPriceTable(dic_styles):
+    data= [[Paragraph("Annual Fee", dic_styles['BIG']), "", Paragraph(ANNUALFEE, dic_styles['BIG'])],
+           [Paragraph("Options", dic_styles['MEDIUM'])],
+           [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
+           [Paragraph('2.', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
     
-    t=Table(data,colWidths=(15*mm, None, 30*mm))
+    t=Table(data,colWidths=(10*mm, None, 30*mm))
 
-    #('ALIGN',       (0, 1),  (-1, 1), 'DECIMAL'), 
+#############################################################
+#                          ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
+#                          ('BOX',             (0,0),   (-1,-1), 0.25, black),
+#############################################################
 
-    t.setStyle(TableStyle([('FONTNAME',        (0, 0),  (-1, 0),'Helvetica-Bold'),
-                           ('FONTSIZE',        (0, 0),  (-1, 0), 16),
-                           ('TOPPADDING',      (0, 0),  (-1, 0), 24), 
-                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 24), 
-                           ('TEXTCOLOR',       (0, 0),  (-1, 0), green), 
-                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica-Bold'),
-                           ('FONTSIZE',        (0, 1),  (-1, 1), 14),
-                           ('TOPPADDING',      (0, 1),  (-1, 1), 24), 
-                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 24), 
-                           ('FONTNAME',        (0, 1),  (-1, 1),'Helvetica'),
-                           ('FONTSIZE',        (0, 1),  (-1, 1), 12),
+    t.setStyle(TableStyle([
+                           ('TOPPADDING',      (0, 0),  (-1, 0), 12), 
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 12), 
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 12), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 12), 
                            ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
                            ('BOTTOMPADDING',   (0, 1),  (-1, 1), 9), 
-                           ('TEXTCOLOR',       (0, 1),  (-1, 1), red), 
-                           ('SPAN',            (0, 0),  ( 1, 0)), 
                            ('SPAN',            (0, 1),  (-1, 1)), 
-                           ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
-                           ('BOX',             (0,0),   (-1,-1), 0.25, black),
+                           ('SPAN',            (0, 0),  ( 1, 0)), 
+                           ('VALIGN',          (0, 0),  (-1, -1), 'TOP'), 
                           ]))
-#    t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
-#    ('TEXTCOLOR',(1,1),(-2,-2),red),
-#    ('VALIGN',(0,0),(0,-1),'TOP'),
-#    ('TEXTCOLOR',(0,0),(0,-1),blue),
-#    ('ALIGN',(0,-1),(-1,-1),'CENTER'),
-#    ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
-#    ('TEXTCOLOR',(0,-1),(-1,-1),green),
-#    ('INNERGRID', (0,0), (-1,-1), 0.25, black),
-#    ('BOX', (0,0), (-1,-1), 0.25, black),
-#    ]))
-
     return t
+def make_styles():
+    BIGSIZE = 16
+    MEDIUMSIZE = 14
+    SMALLSIZE = 12
+    TINYSIZE = 8
+
+    dic_styles= {}
+
+    dic_styles['BIG'] = ParagraphStyle( name='BIG', 
+                        fontName = 'Helvetica-Bold', 
+                        fontSize= BIGSIZE, 
+                        leading = BIGSIZE*1.2) 
+
+    dic_styles['MEDIUM'] = ParagraphStyle( name='MEDIUM', 
+                        fontName = 'Helvetica-Bold', 
+                        fontSize= MEDIUMSIZE, 
+                        leading = MEDIUMSIZE*1.2) 
+
+    dic_styles['SMALL'] = ParagraphStyle( name='SMALL', 
+                        fontName = 'Helvetica', 
+                        fontSize= SMALLSIZE, 
+                        leading = SMALLSIZE*1.2) 
+
+    dic_styles['TINY'] = ParagraphStyle( name='TINY', 
+                        fontName = 'Helvetica', 
+                        fontSize= TINYSIZE, 
+                        leading = TINYSIZE*1.2) 
+
+    return dic_styles
+
 
 def make_start_year_invoice_pdf_platypus(buffer, mem):
 
+    from os.path import abspath, basename, dirname, join, normpath
+    from sys import path
     from reportlab.lib.styles import getSampleStyleSheet
+
     styles = getSampleStyleSheet()
     styleN = styles['Normal']
     styleH = styles['Heading1']
-    import pprint
-    pprint.pprint(styleN)
+    dic_styles = make_styles()
+
     story = []
     #add some flowables
+    path_to_hdr_img = normpath(join(settings.SITE_ROOT, 'static', 'ebsg-invoice-header.png'))
+    story.append(Image(path_to_hdr_img, width=155*mm, height=42*mm))
+    story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("EASTERN BAY SCOUTS GROUP INVOICE",styleH))
-    story.append(Paragraph("Hi and welcome to Scouts for 2015!",styleN))
-    story.append(buildPriceTable())
+    story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(Paragraph("Hi and welcome to Scouts for 2015!", dic_styles['SMALL']))
+    story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(buildPriceTable(dic_styles))
     story.append(Spacer(width=10*mm, height=10*mm))
-    story.append(buildHowToPayTable(mem))
-    story.append(Paragraph("Thank you for your prompt payment",styleN))
-    story.append(Paragraph(get_local_iso(),styleN))
+    story.append(buildHowToPayTable(mem, dic_styles))
+    story.append(Spacer(width=10*mm, height=10*mm))
+    story.append(Paragraph("Thank you for your prompt payment", dic_styles['SMALL']))
+    story.append(Spacer(width=10*mm, height=30*mm))
+    story.append(Paragraph(get_local_iso(), dic_styles['TINY']))
 
     doc = SimpleDocTemplate(buffer,pagesize = A4)
     doc.build(story)
