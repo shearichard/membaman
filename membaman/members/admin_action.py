@@ -254,23 +254,7 @@ def make_start_year_invoice_pdf(mem):
     Creates a start year invoice for the member in question
     '''
     buffer = BytesIO()
-    use_platypus = True
-
-    if use_platypus:
-        pdfbytes = make_start_year_invoice_pdf_platypus(buffer, mem)
-    else:
-        # Create the PDF object, using the BytesIO object as its "file."
-        p = canvas.Canvas(buffer)
-        # Draw things on the PDF. Here's where the PDF generation happens.
-        # See the ReportLab documentation for the full list of functionality.
-        p.drawString(100, 100, "Hello %s" % mem.last_first_name())
-        p.drawString(100, 200, "Hello %s" % mem.primary_caregiver_email())
-        # Close the PDF object cleanly.
-        p.showPage()
-        p.save()
-        # Get the value of the BytesIO buffer and write it to the response.
-        pdfbytes = buffer.getvalue()
-
+    pdfbytes = make_start_year_invoice_pdf_platypus(buffer, mem)
     buffer.close()
 
     return pdfbytes
