@@ -122,10 +122,37 @@ class Member(Person):
     date_invested = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
+        '''
+        Returns "Smith, John"
+        '''
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
 
     def last_first_name(self):
+        '''
+        Returns "Smith, John"
+        '''
         return u', '.join((unicode(self.name_family), unicode(self.name_given)))
+
+    def first_last_name(self):
+        '''
+        Returns "John Smith"
+        '''
+        return u' '.join((unicode(self.name_given), unicode(self.name_family)))
+
+    def first_last_name_memtype_desc(self):
+        '''
+        Returns "John Smith (Scout)"
+        '''
+        out = self.first_last_name()
+        if self.membership_type == self.UNKNOWN:
+            pass
+        else:
+            for mem_type_tuple in self.MEMBERSHIP_TYPE_CHOICES:
+                if mem_type_tuple[0] == self.membership_type:
+                    outfull = u"%s (%s)" % (out, unicode(mem_type_tuple[1]))
+                    out = outfull
+                    break
+        return out
 
     def primary_caregiver_email(self):
         return unicode(self.primary_caregiver.email)
