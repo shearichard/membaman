@@ -53,7 +53,11 @@ PAYOPTIONBANKTRANSFER = "Pay online into the '{acname}' Account. Our bank accoun
 PAYOPTIONBANKCHEQUE = "Post a cheque made out to '{acname}' to {orgadd}. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference {payref} on the back of the cheque."
 QUESTIONSPARA = "If you have any questions about the amount to pay please contact the treasurer {treasname} by email at {treaseml}, or by phone on {treasphone}."
 TROUBLEPARA = "The fees collected are of great importance in allowing the Scout Group to continue running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, {ldrname}, on {ldrphone}."
+
 def makeFrame():
+    '''
+    NOT CURRENTLY USED
+    '''
     objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
                     pageStructure['TOP']['OffsetFromBottom'], 
                     pageStructure['TOP']['Width'], 
@@ -67,22 +71,10 @@ def makeFrame():
                     overlapAttachedSpace=None, 
                     _debug=None)
 
-def myFirstPage(canvas, doc):
-    canvas.saveState()
-    canvas.setFont('Times-Bold',16)
-    canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-108, Title)
-    canvas.setFont('Times-Roman',9)
-    canvas.drawString(inch, 0.75 * inch,"First Page / %s" % pageinfo)
-    canvas.restoreState()
-    
-def myLaterPages(canvas, doc):
-    canvas.saveState()
-    canvas.setFont('Times-Roman', 9)
-    canvas.drawString(inch, 0.75 * inch,"Page %d %s" % (doc.page, pageinfo))
-    canvas.restoreState()
-
-
 def buildHowToPayTable(mem, dic_styles):    
+    '''
+    Return a Reportlab table with payment instructions
+    '''
 
     data= [[Paragraph('How to pay ?', dic_styles['MEDIUM'])],
            [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER.format(acname=mem.organisation.bank_account_name, 
@@ -108,6 +100,10 @@ def buildHowToPayTable(mem, dic_styles):
     return t
  
 def buildPriceTable(dic_styles):
+    '''
+    Return a Reportlab table with pricing information 
+    '''
+
     data= [[Paragraph("Annual Fee", dic_styles['MEDIUM']), "", Paragraph(ANNUALFEE, dic_styles['MEDIUM'])],
            [Paragraph("Options", dic_styles['MEDIUM'])],
            [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
@@ -128,39 +124,14 @@ def buildPriceTable(dic_styles):
                           ]))
     return t
 
-#def buildInvestitureTable(dic_styles):
-#    data= [[Paragraph("New to Keas, Cubs or Scouts ?", dic_styles['MEDIUM']), "", ""],
-#           [Paragraph("There is an additional one-off fee of $10.00 charged in the first year to cover a scarf and membership badgest", dic_styles['SMALL']), "", ""],
-#           [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
-#           [Paragraph('2.', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
-#    
-#    t=Table(data,colWidths=(10*mm, None, 30*mm))
-#
-#    t.setStyle(TableStyle([
-#                           ('TOPPADDING',      (0, 0),  (-1, 0), 9), 
-#                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 0), 
-#                           ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
-#                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 0), 
-#                           ('TOPPADDING',      (0, 1),  (-1, 1), 6), 
-#                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 6), 
-#                           ('SPAN',            (0, 0),  (-1, 0)), 
-#                           ('SPAN',            (0, 1),  (-1, 1)), 
-#                           ('VALIGN',          (0, 0),  (-1, -1), 'TOP'), 
-#                          ]))
-#    return t
-
 def make_styles():
     '''
+    Generate all the Reportlab Styles we need
+
     Type sizes are based on http://type-scale.com/
     '''
-    BASESIZE = 11
-    '''
-    VERYBIGSIZE = 3.998 * BASESIZE 
-    BIGSIZE = 2.827 * BASESIZE 
-    MEDIUMSIZE = 1.999 * BASESIZE 
-    SMALLSIZE = 1.414 * BASESIZE 
-    TINYSIZE = 1 * BASESIZE 
-    '''
+    BASESIZE = 10 
+
     VERYBIGSIZE = 1.602 * BASESIZE 
     BIGSIZE = 1.424 * BASESIZE 
     MEDIUMSIZE = 1.266 * BASESIZE 
@@ -211,6 +182,10 @@ def make_styles():
 
 
 def make_start_year_invoice_pdf_platypus(buffer, mem):
+    '''
+    Given a Member drive the process of building a PDF
+    invoice for them
+    '''
 
     from os.path import abspath, basename, dirname, join, normpath
     from sys import path
@@ -266,9 +241,10 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     buffer.close()
     return pdfbytes
     
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 def get_local_iso():
+    '''
+    Get local date time in ISO format
+    '''
     tz_in_use = pytz.timezone(settings.TIME_ZONE)
     dtnow = datetime.datetime.now(tz_in_use)
     return dtnow.strftime('%Y%m%dT%H%M%S')
