@@ -49,9 +49,10 @@ ANNUALPAYINFULLAMOUNT = '''$240'''
 ANNUALPAYONETERMTERMS = '''Pay $60 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
 ANNUALPAYONETERMAMOUNT = '''$210'''
 ANNUALFEE = "$264"
-PAYOPTIONBANKTRANSFER = "Pay online into the '%s' Account. Our bank account number is : %s. Please use your reference : %s . Please advise payment to rshea@thecubagroup.com"
-PAYOPTIONBANKCHEQUE = "Post a cheque made out to '%s' to %s. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
-
+PAYOPTIONBANKTRANSFER = "Pay online into the '{acname}' Account. Our bank account number is : {acnum} Please use your reference : {payref} . Please advise payment to {adveml}"
+PAYOPTIONBANKCHEQUE = "Post a cheque made out to '{acname}' to {orgadd}. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference {payref} on the back of the cheque."
+QUESTIONSPARA = "If you have any questions about the amount to pay please contact the treasurer {treasname} by email at {treaseml}, or by phone on {treasphone}."
+TROUBLEPARA = "The fees collected are of great importance in allowing the Scout Group to continue running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, {ldrname}, on {ldrphone}."
 def makeFrame():
     objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
                     pageStructure['TOP']['OffsetFromBottom'], 
@@ -84,8 +85,17 @@ def myLaterPages(canvas, doc):
 def buildHowToPayTable(mem, dic_styles):    
 
     data= [[Paragraph('How to pay ?', dic_styles['MEDIUM'])],
-           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.organisation.bank_account_name, mem.organisation.bank_account_number, mem.id), dic_styles['SMALL'])],
-           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE % (mem.organisation.bank_account_name, mem.organisation.postal_address, mem.id), dic_styles['SMALL'])]]
+           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER.format(acname=mem.organisation.bank_account_name, 
+                                                                                         acnum=mem.organisation.bank_account_number, 
+                                                                                         payref=mem.id, 
+                                                                                         adveml=mem.organisation.treasurer_email), 
+                                                                                         dic_styles['SMALL'])],
+           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE.format(acname=mem.organisation.bank_account_name, 
+                                                                                       orgadd=mem.organisation.postal_address, 
+                                                                                       payref=mem.id), 
+                                                                                       dic_styles['SMALL'])]]
+               
+               
 
     t=Table(data,colWidths=(10*mm, None))
     t.setStyle(TableStyle([
@@ -233,15 +243,23 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(buildHowToPayTable(mem, dic_styles))
     story.append(Spacer(width=10*mm, height=5*mm))
-    story.append(Paragraph("If you have any questions about the amount to pay please contact the treasurer Richard Shea by email at rshea@thecubagroup.com, or by phone on 04 480 6368 or 021976 683.", dic_styles['SMALL']))
+    story.append(Paragraph(QUESTIONSPARA.format(treasname=mem.organisation.treasurer_name,
+                                                treaseml=mem.organisation.treasurer_email,
+                                                treasphone=mem.organisation.treasurer_phone), 
+                                                dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
-    story.append(Paragraph("The fees collected are of great importance in allowing the Scout Group to continue running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, Morris Voornveld, on 04 934 9386.",  dic_styles['SMALL']))
+    story.append(Paragraph(TROUBLEPARA.format(ldrname=mem.organisation.leader_name,
+                                              ldrphone=mem.organisation.leader_phone),  
+                                              dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("Thank you for your prompt payment", dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=30*mm))
     story.append(Paragraph(get_local_iso(), dic_styles['TINY']))
 
     doc = SimpleDocTemplate(buffer,pagesize = A4)
+    print doc.topMargin
+    print doc.bottomMargin
+
     doc.build(story)
 
     pdfbytes = buffer.getvalue()
