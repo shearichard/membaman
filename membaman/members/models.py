@@ -9,6 +9,16 @@ class Organisation(models.Model):
         ordering = ['name']
 
     name = models.CharField(max_length=50)
+    postal_address = models.CharField(max_length=150, null=True, blank=True)
+    bank_account_name = models.CharField(max_length=100, null=True, blank=True)
+    bank_account_number = models.CharField(max_length=50, null=True, blank=True)
+    treasurer_name = models.CharField(max_length=50, null=True, blank=True)
+    treasurer_phone = models.CharField(max_length=50, null=True, blank=True)
+    treasurer_email = models.CharField(max_length=50, null=True, blank=True)
+    leader_name = models.CharField(max_length=50, null=True, blank=True)
+    leader_phone = models.CharField(max_length=50, null=True, blank=True)
+    leader_email = models.CharField(max_length=50, null=True, blank=True)
+
 
     def __unicode__(self):
         return unicode(self.name)

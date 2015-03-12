@@ -49,8 +49,8 @@ ANNUALPAYINFULLAMOUNT = '''$240'''
 ANNUALPAYONETERMTERMS = '''Pay $60 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
 ANNUALPAYONETERMAMOUNT = '''$210'''
 ANNUALFEE = "$264"
-PAYOPTIONBANKTRANSFER = "Pay online into the %s Account. Our bank account number is : 00000 00000. Please use your reference : %s . Please advise payment to rshea@thecubagroup.com"
-PAYOPTIONBANKCHEQUE = "Post a cheque made out to 'Eastern Bay Scouts Group Account' to PO Box 15395, Miramar. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
+PAYOPTIONBANKTRANSFER = "Pay online into the '%s' Account. Our bank account number is : %s. Please use your reference : %s . Please advise payment to rshea@thecubagroup.com"
+PAYOPTIONBANKCHEQUE = "Post a cheque made out to '%s' to %s. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
 
 def makeFrame():
     objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
@@ -84,8 +84,8 @@ def myLaterPages(canvas, doc):
 def buildHowToPayTable(mem, dic_styles):    
 
     data= [[Paragraph('How to pay ?', dic_styles['MEDIUM'])],
-           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.organisation.name, mem.id), dic_styles['SMALL'])],
-           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), dic_styles['SMALL'])]]
+           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.organisation.bank_account_name, mem.organisation.bank_account_number, mem.id), dic_styles['SMALL'])],
+           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE % (mem.organisation.bank_account_name, mem.organisation.postal_address, mem.id), dic_styles['SMALL'])]]
 
     t=Table(data,colWidths=(10*mm, None))
     t.setStyle(TableStyle([
