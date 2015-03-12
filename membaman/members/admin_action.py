@@ -45,12 +45,12 @@ styles = getSampleStyleSheet()
 Title = "Hello world"
 pageinfo = "platypus example"
 ANNUALPAYINFULLTERMS = '''Pay in full by 31st March (discounted by 10%)'''
-ANNUALPAYINFULLAMOUNT = '''$898'''
-ANNUALPAYONETERMTERMS = '''Pay $99 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
-ANNUALPAYONETERMAMOUNT = '''$897'''
-ANNUALFEE = "$996"
-PAYOPTIONBANKTRANSFER = "Pay online into the Eastern Bay Scouts Group Account. Our bank account number is : 00000 00000. Please use your reference : %s ."
-PAYOPTIONBANKCHEQUE = "Some stuff about how to pay by cheque. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
+ANNUALPAYINFULLAMOUNT = '''$240'''
+ANNUALPAYONETERMTERMS = '''Pay $60 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
+ANNUALPAYONETERMAMOUNT = '''$210'''
+ANNUALFEE = "$264"
+PAYOPTIONBANKTRANSFER = "Pay online into the %s Account. Our bank account number is : 00000 00000. Please use your reference : %s . Please advise payment to rshea@thecubagroup.com"
+PAYOPTIONBANKCHEQUE = "Post a cheque made out to 'Eastern Bay Scouts Group Account' to PO Box 15395, Miramar. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference %s on the back of the cheque."
 
 def makeFrame():
     objFrameTOP = Frame(pageStructure['TOP']['OffsetFromLeft'], 
@@ -83,60 +83,107 @@ def myLaterPages(canvas, doc):
 
 def buildHowToPayTable(mem, dic_styles):    
 
-    data= [[Paragraph('How to pay ?', dic_styles['BIG'])],
-           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.id), dic_styles['SMALL'])],
+    data= [[Paragraph('How to pay ?', dic_styles['MEDIUM'])],
+           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER % (mem.organisation.name, mem.id), dic_styles['SMALL'])],
            [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE % (mem.id), dic_styles['SMALL'])]]
 
     t=Table(data,colWidths=(10*mm, None))
     t.setStyle(TableStyle([
-                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 12), 
-                           ('TOPPADDING',      (0, 1),  (-1, 1), 12), 
-                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 12), 
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 9), 
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 0), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 9), 
                            ('VALIGN',          (0, 1),  (-1, -1), 'TOP'), 
                            ('SPAN',            (0, 0),  (-1, 0)), 
                           ]))
     return t
  
 def buildPriceTable(dic_styles):
-    data= [[Paragraph("Annual Fee", dic_styles['BIG']), "", Paragraph(ANNUALFEE, dic_styles['BIG'])],
+    data= [[Paragraph("Annual Fee", dic_styles['MEDIUM']), "", Paragraph(ANNUALFEE, dic_styles['MEDIUM'])],
            [Paragraph("Options", dic_styles['MEDIUM'])],
            [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
            [Paragraph('2.', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
     
     t=Table(data,colWidths=(10*mm, None, 30*mm))
 
-#############################################################
-#                          ('INNERGRID',       (0,0),   (-1,-1), 0.25, black),
-#                          ('BOX',             (0,0),   (-1,-1), 0.25, black),
-#############################################################
-
     t.setStyle(TableStyle([
-                           ('TOPPADDING',      (0, 0),  (-1, 0), 12), 
-                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 12), 
-                           ('TOPPADDING',      (0, 1),  (-1, 1), 12), 
-                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 12), 
-                           ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
+                           ('TOPPADDING',      (0, 0),  (-1, 0), 0), 
+                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 9), 
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 0), 
                            ('BOTTOMPADDING',   (0, 1),  (-1, 1), 9), 
+                           ('TOPPADDING',      (0, 1),  (-1, 1), 6), 
+                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 6), 
                            ('SPAN',            (0, 1),  (-1, 1)), 
                            ('SPAN',            (0, 0),  ( 1, 0)), 
                            ('VALIGN',          (0, 0),  (-1, -1), 'TOP'), 
                           ]))
     return t
+
+#def buildInvestitureTable(dic_styles):
+#    data= [[Paragraph("New to Keas, Cubs or Scouts ?", dic_styles['MEDIUM']), "", ""],
+#           [Paragraph("There is an additional one-off fee of $10.00 charged in the first year to cover a scarf and membership badgest", dic_styles['SMALL']), "", ""],
+#           [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
+#           [Paragraph('2.', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
+#    
+#    t=Table(data,colWidths=(10*mm, None, 30*mm))
+#
+#    t.setStyle(TableStyle([
+#                           ('TOPPADDING',      (0, 0),  (-1, 0), 9), 
+#                           ('BOTTOMPADDING',   (0, 0),  (-1, 0), 0), 
+#                           ('TOPPADDING',      (0, 1),  (-1, 1), 9), 
+#                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 0), 
+#                           ('TOPPADDING',      (0, 1),  (-1, 1), 6), 
+#                           ('BOTTOMPADDING',   (0, 1),  (-1, 1), 6), 
+#                           ('SPAN',            (0, 0),  (-1, 0)), 
+#                           ('SPAN',            (0, 1),  (-1, 1)), 
+#                           ('VALIGN',          (0, 0),  (-1, -1), 'TOP'), 
+#                          ]))
+#    return t
+
 def make_styles():
-    BIGSIZE = 16
-    MEDIUMSIZE = 14
-    SMALLSIZE = 12
-    TINYSIZE = 8
+    '''
+    Type sizes are based on http://type-scale.com/
+    '''
+    BASESIZE = 11
+    '''
+    VERYBIGSIZE = 3.998 * BASESIZE 
+    BIGSIZE = 2.827 * BASESIZE 
+    MEDIUMSIZE = 1.999 * BASESIZE 
+    SMALLSIZE = 1.414 * BASESIZE 
+    TINYSIZE = 1 * BASESIZE 
+    '''
+    VERYBIGSIZE = 1.602 * BASESIZE 
+    BIGSIZE = 1.424 * BASESIZE 
+    MEDIUMSIZE = 1.266 * BASESIZE 
+    SMALLSIZE = 1.125 * BASESIZE 
+    TINYSIZE = 1 * BASESIZE 
 
     dic_styles= {}
+
+    dic_styles['VERYBIG'] = ParagraphStyle( name='VERYBIG', 
+                        alignment = TA_CENTER, 
+                        fontName = 'Helvetica-Bold', 
+                        fontSize= VERYBIGSIZE, 
+                        leading = VERYBIGSIZE*1.2) 
 
     dic_styles['BIG'] = ParagraphStyle( name='BIG', 
                         fontName = 'Helvetica-Bold', 
                         fontSize= BIGSIZE, 
                         leading = BIGSIZE*1.2) 
 
+    dic_styles['BIGCENTRED'] = ParagraphStyle( name='BIGCENTRED', 
+                        alignment = TA_CENTER, 
+                        fontName = 'Helvetica-Bold', 
+                        fontSize= BIGSIZE, 
+                        leading = BIGSIZE*1.2) 
+
     dic_styles['MEDIUM'] = ParagraphStyle( name='MEDIUM', 
                         fontName = 'Helvetica-Bold', 
+                        fontSize= MEDIUMSIZE, 
+                        leading = MEDIUMSIZE*1.2) 
+
+    dic_styles['MEDIUMCENTRED'] = ParagraphStyle( name='MEDIUMCENTRED', 
+                        fontName = 'Helvetica-Bold', 
+                        alignment = TA_CENTER, 
                         fontSize= MEDIUMSIZE, 
                         leading = MEDIUMSIZE*1.2) 
 
@@ -164,19 +211,32 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     styleH = styles['Heading1']
     dic_styles = make_styles()
 
+    invoice_title = "%s Invoice" % mem.organisation.name
+
+    PARAGRAPH_SPACER_MM = 10
+
     story = []
     #add some flowables
     path_to_hdr_img = normpath(join(settings.SITE_ROOT, 'static', 'ebsg-invoice-header.png'))
     story.append(Image(path_to_hdr_img, width=155*mm, height=42*mm))
     story.append(Spacer(width=10*mm, height=5*mm))
-    story.append(Paragraph("EASTERN BAY SCOUTS GROUP INVOICE",styleH))
+    story.append(Paragraph(invoice_title ,dic_styles['BIGCENTRED']))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("Hi and welcome to Scouts for 2015!", dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(Paragraph("Name: %s" % (mem.first_last_name_memtype_desc()), dic_styles['MEDIUM']))
+    story.append(Spacer(width=10*mm, height=5*mm))
     story.append(buildPriceTable(dic_styles))
-    story.append(Spacer(width=10*mm, height=10*mm))
+    story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(Paragraph("New to Keas, Cubs or Scouts ?", dic_styles['MEDIUMCENTRED']))
+    story.append(Paragraph("There is an additional one-off fee of $10.00 charged in the first year to cover a scarf and membership badges", dic_styles['SMALL']))
+    story.append(Spacer(width=10*mm, height=5*mm))
     story.append(buildHowToPayTable(mem, dic_styles))
-    story.append(Spacer(width=10*mm, height=10*mm))
+    story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(Paragraph("If you have any questions about the amount to pay please contact the treasurer Richard Shea by email at rshea@thecubagroup.com, or by phone on 04 480 6368 or 021976 683.", dic_styles['SMALL']))
+    story.append(Spacer(width=10*mm, height=5*mm))
+    story.append(Paragraph("The fees collected are of great importance in allowing the Scout Group to continue running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, Morris Voornveld, on 04 934 9386.",  dic_styles['SMALL']))
+    story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("Thank you for your prompt payment", dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=30*mm))
     story.append(Paragraph(get_local_iso(), dic_styles['TINY']))
