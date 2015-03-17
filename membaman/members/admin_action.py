@@ -231,7 +231,7 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     story.append(Spacer(width=10*mm, height=30*mm))
     story.append(Paragraph(get_local_iso(), dic_styles['TINY']))
 
-    doc = SimpleDocTemplate(buffer,pagesize = A4)
+    doc = SimpleDocTemplate(buffer,pagesize = A4, topMargin=18, bottomMargin=36)
     print doc.topMargin
     print doc.bottomMargin
 
