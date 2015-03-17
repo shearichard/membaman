@@ -16,10 +16,12 @@ class SubOrganisationAdmin(admin.ModelAdmin):
         list_display = ['sub_name', 'organisation_name']
         list_filter = ['organisation']
 class CaregiverAdmin(admin.ModelAdmin):
-        list_display = ['name_given', 'name_family', 'relationship']
+        list_display = ['name_given', 'name_family', 'email',  'relationship']
+        search_fields = ['name_given', 'name_family']
 class MemberAdmin(admin.ModelAdmin):
         list_display = ['name_family', 'name_given', 'organisation', 'sub_organisation', 'membership_type']
         list_filter = ['organisation', 'sub_organisation', 'family']
+        search_fields = ['name_given', 'name_family']
         actions = [print_start_year_invoices] 
 
 admin.site.register(Organisation)
