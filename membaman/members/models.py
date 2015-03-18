@@ -130,6 +130,8 @@ class Member(Person):
     caregivers = models.ManyToManyField(Caregiver, related_name='caregivers')
     date_of_birth = models.DateField(null=True, blank=True)
     date_invested = models.DateField(null=True, blank=True)
+    no_longer_attends = models.BooleanField(default=False)
+    no_longer_attends_notification = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
         '''
