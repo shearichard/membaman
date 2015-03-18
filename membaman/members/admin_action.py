@@ -44,15 +44,17 @@ PAGE_WIDTH=defaultPageSize[0]
 styles = getSampleStyleSheet()
 Title = "Hello world"
 pageinfo = "platypus example"
-ANNUALPAYINFULLTERMS = '''Pay in full by 31st March (discounted by 10%)'''
-ANNUALPAYINFULLAMOUNT = '''$240'''
-ANNUALPAYONETERMTERMS = '''Pay $60 per term (due 1-Mar-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
-ANNUALPAYONETERMAMOUNT = '''$210'''
-ANNUALFEE = "$264"
-PAYOPTIONBANKTRANSFER = "Pay online into the '{acname}' Account. Our bank account number is : {acnum} Please use your reference : {payref} . Please advise payment to {adveml}"
-PAYOPTIONBANKCHEQUE = "Post a cheque made out to '{acname}' to {orgadd}. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your reference {payref} on the back of the cheque."
+ANNUALPAYINFULLTERMS = '''Pay in full by 1-Apr-15 '''
+ANNUALPAYINFULLAMOUNT = '''$210'''
+ANNUALPAYONETERMTERMS = '''Pay $60 per term (due 1-Apr-15, 1-Jun-15, 1-Aug-15, 1-Nov-15)'''
+ANNUALPAYONETERMAMOUNT = '''$240'''
+ANNUALPAYAUTO = '''Pay $25 monthly by AP for 9 months (due 1-Apr-2015 to 1-Dec-2015)'''
+ANNUALPAYAUTOAMOUNT = '''$225'''
+ANNUALFEE = "$240"
+PAYOPTIONBANKTRANSFER = "Pay online into the '{acname}' Account. Our bank account number is : {acnum} Please use your payment reference : {payref} . Please advise payment to {adveml} and quote your payment reference in the email."
+PAYOPTIONBANKCHEQUE = "Post a cheque made out to '{acname}' to {acname} {orgadd}. Alternatively give a cheque to your Cub/Scout Leader. Please write the name(s) of the child/children and your payment reference {payref} on the back of the cheque."
 QUESTIONSPARA = "If you have any questions about the amount to pay please contact the treasurer {treasname} by email at {treaseml}, or by phone on {treasphone}."
-TROUBLEPARA = "The fees collected are of great importance in allowing the Scout Group to continue running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, {ldrname}, on {ldrphone}."
+TROUBLEPARA = "The payment of fees is essential so allow the group to keep running however we appreciate some families might have difficulty paying. If this is you please get in touch with Group Leader, {ldrname}, on {ldrphone}."
 
 def makeFrame():
     '''
@@ -77,19 +79,19 @@ def buildHowToPayTable(mem, dic_styles):
     '''
 
     data= [[Paragraph('How to pay ?', dic_styles['MEDIUM'])],
-           [Paragraph('1.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER.format(acname=mem.organisation.bank_account_name, 
+           [Paragraph('1', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKTRANSFER.format(acname=mem.organisation.bank_account_name, 
                                                                                          acnum=mem.organisation.bank_account_number, 
-                                                                                         payref=mem.id, 
+                                                                                         payref='15A-' + str(mem.id), 
                                                                                          adveml=mem.organisation.treasurer_email), 
                                                                                          dic_styles['SMALL'])],
-           [Paragraph('2.', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE.format(acname=mem.organisation.bank_account_name, 
+           [Paragraph('2', dic_styles['SMALL']), Paragraph(PAYOPTIONBANKCHEQUE.format(acname=mem.organisation.bank_account_name, 
                                                                                        orgadd=mem.organisation.postal_address, 
-                                                                                       payref=mem.id), 
+                                                                                       payref='15A-' + str(mem.id)), 
                                                                                        dic_styles['SMALL'])]]
                
                
 
-    t=Table(data,colWidths=(10*mm, None))
+    t=Table(data,colWidths=(7.5*mm, None))
     t.setStyle(TableStyle([
                            ('BOTTOMPADDING',   (0, 0),  (-1, 0), 9), 
                            ('TOPPADDING',      (0, 1),  (-1, 1), 0), 
@@ -106,10 +108,11 @@ def buildPriceTable(dic_styles):
 
     data= [[Paragraph("Annual Fee", dic_styles['MEDIUM']), "", Paragraph(ANNUALFEE, dic_styles['MEDIUM'])],
            [Paragraph("Options", dic_styles['MEDIUM'])],
-           [Paragraph('1.', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
-           [Paragraph('2.', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
+           [Paragraph('1', dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYINFULLAMOUNT, dic_styles['SMALL'])],
+           [Paragraph('2', dic_styles['SMALL']), Paragraph(ANNUALPAYAUTO, dic_styles['SMALL']), Paragraph(ANNUALPAYAUTOAMOUNT, dic_styles['SMALL'])],
+           [Paragraph('3', dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMTERMS, dic_styles['SMALL']), Paragraph(ANNUALPAYONETERMAMOUNT, dic_styles['SMALL'])]]
     
-    t=Table(data,colWidths=(10*mm, None, 30*mm))
+    t=Table(data,colWidths=(7.5*mm, None, 30*mm))
 
     t.setStyle(TableStyle([
                            ('TOPPADDING',      (0, 0),  (-1, 0), 0), 
@@ -136,7 +139,7 @@ def make_styles():
     BIGSIZE = 1.424 * BASESIZE 
     MEDIUMSIZE = 1.266 * BASESIZE 
     SMALLSIZE = 1.125 * BASESIZE 
-    TINYSIZE = 1 * BASESIZE 
+    TINYSIZE = 0.5 * BASESIZE 
 
     dic_styles= {}
 
@@ -207,14 +210,14 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph(invoice_title ,dic_styles['BIGCENTRED']))
     story.append(Spacer(width=10*mm, height=5*mm))
-    story.append(Paragraph("Hi and welcome to Scouts for 2015!", dic_styles['SMALL']))
+    story.append(Paragraph("Hi and welcome to Keas, Cubs and Scouts for 2015!", dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
-    story.append(Paragraph("Name: %s" % (mem.first_last_name_memtype_desc()), dic_styles['MEDIUM']))
+    story.append(Paragraph("Name: %s" % (mem.first_last_name()), dic_styles['MEDIUM']))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(buildPriceTable(dic_styles))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("New to Keas, Cubs or Scouts ?", dic_styles['MEDIUMCENTRED']))
-    story.append(Paragraph("There is an additional one-off fee of $10.00 charged in the first year to cover a scarf and membership badges", dic_styles['SMALL']))
+    story.append(Paragraph("There is an additional one-off fee of $15.00 charged in the first year to cover a scarf and membership badges", dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(buildHowToPayTable(mem, dic_styles))
     story.append(Spacer(width=10*mm, height=5*mm))
@@ -228,7 +231,7 @@ def make_start_year_invoice_pdf_platypus(buffer, mem):
                                               dic_styles['SMALL']))
     story.append(Spacer(width=10*mm, height=5*mm))
     story.append(Paragraph("Thank you for your prompt payment", dic_styles['SMALL']))
-    story.append(Spacer(width=10*mm, height=30*mm))
+    story.append(Spacer(width=10*mm, height=15*mm))
     story.append(Paragraph(get_local_iso(), dic_styles['TINY']))
 
     doc = SimpleDocTemplate(buffer,pagesize = A4, topMargin=18, bottomMargin=36)
