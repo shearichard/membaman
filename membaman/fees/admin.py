@@ -4,6 +4,8 @@ from django.contrib import admin
 from fees.models import Year
 from fees.models import SubYear
 from fees.models import Income
+from fees.models import AccountDebt
+from fees.models import AccountPayment
 
 class YearAdmin(admin.ModelAdmin):
         list_display = ['name', 'organisation', 'start', 'end']
@@ -17,6 +19,16 @@ class IncomeAdmin(admin.ModelAdmin):
         list_display = ['year_name', 'subyear_name', 'member', 'received']
         list_filter = ['subyear__year__name', 'subyear__name']
 
+class AccountDebtAdmin(admin.ModelAdmin):
+        list_display = ['member', 'date', 'amount']
+        list_filter = ['member']
+
+class AccountPaymentAdmin(admin.ModelAdmin):
+        list_display = ['member', 'date', 'amount']
+        list_filter = ['member']
+
 admin.site.register(Year, YearAdmin)
 admin.site.register(SubYear, SubYearAdmin)
 admin.site.register(Income, IncomeAdmin)
+admin.site.register(AccountDebt, AccountDebtAdmin)
+admin.site.register(AccountPayment, AccountPaymentAdmin)

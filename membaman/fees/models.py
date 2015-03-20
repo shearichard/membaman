@@ -84,3 +84,49 @@ class Income(models.Model):
         return unicode(' (') + unicode(self.subyear.year.name) + unicode(' - ') + \
             unicode(self.subyear.name) + unicode(':') + unicode(self.member) + \
             unicode(')') + unicode(self.received)
+
+class AccountEntry(models.Model):
+    '''
+    `AccountEntry` represents either a debt or a
+    credit. We record membership payments which 
+    have been asked for via `AccountEntry` and we
+    record amounts received via `AccountEntry`
+
+    '''
+    DEBT = 'DT'
+    CREDIT = 'CR'
+
+    ACCOUNT_ENTRY_TYPE_CHOICES = (
+        (DEBT, 'Debt'),
+        (CREDIT, 'Credit')
+    )
+    member = models.ForeignKey(Member)
+    amount = models.DecimalField(max_digits=5, decimal_places=2)
+    date = models.DateField()
+
+class AccountDebt(AccountEntry):
+    invoice_reference = models.CharField(max_length=10)
+
+class AccountPayment(AccountEntry):
+
+    AUTOPAYMENT = 'AT'
+    BANKTRANSFER = 'TR'
+    CASH = 'CA'
+    CHEQUE = 'CH'
+    DISCOUNT = 'DI'
+    OTHER = 'OT'
+
+    PAYMENT_TYPE_CHOICES = (
+        (AUTOPAYMENT, 'Automated Payment'),
+        (BANKTRANSFER, 'Bank Transfer'),
+        (CASH, 'Cash'),
+        (CHEQUE, 'Credit'),
+        (DISCOUNT, 'Discount'),
+        (OTHER, 'Other'),
+    )
+    payment_type = models.CharField(max_length=2,
+                                    choices=PAYMENT_TYPE_CHOICES,
+                                    default=OTHER)
+    payment_reference = models.CharField(max_length=10)
+    description = models.CharField(max_length=10, null=True, blank=True)
+    notes = models.CharField(max_length=128, null=True, blank=True)
