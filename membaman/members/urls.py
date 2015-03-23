@@ -12,4 +12,5 @@ urlpatterns = patterns('',
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='members/members-index.html'), name='membersindex'),
     url(r'^member-list/', views.MemberListView.as_view(), name='member-list'),
+    url(r'^member-nomore-list/', views.MemberNoMoreListView.as_view(), name='member-nomore-list'),
 )

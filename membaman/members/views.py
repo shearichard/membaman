@@ -11,7 +11,25 @@ class MemberListView(ListView):
     model = Member
     template_name = 'fees/member_list.html'
     context_object_name = "member_list"
-    paginate_by = 15
+    paginate_by = 100
+
+    def get_queryset(self):
+        mem_active = Member.objects.filter(no_longer_attends=False)
+        return mem_active
+
+class MemberNoMoreListView(ListView):
+    model = Member
+    template_name = 'fees/member_list.html'
+    context_object_name = "member_list"
+    paginate_by = 100
+
+    def get_queryset(self):
+        '''
+        Sortation shown here derived from : http://stackoverflow.com/a/4175785/364088
+        '''
+        mem_not_active = Member.objects.filter(no_longer_attends=True)
+        lst_mem_not_active = sorted(mem_not_active,  key=lambda m: m.last_first_name)
+        return mem_not_active
 
 #    def get_queryset(self):
 #        '''
