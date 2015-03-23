@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='members/members-index.html'), name='membersindex'),
     url(r'^member-list/', views.MemberActiveListView.as_view(), name='member-list'),
     url(r'^member-nomore-list/', views.MemberNotActiveListView.as_view(), name='member-nomore-list'),
+    url(r'^member-view/(?P<pk>\d+)/$', views.MemberDetail.as_view(), name='member-view'),
 )

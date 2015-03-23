@@ -1,0 +1,12 @@
+{% load i18n %}
+
+
+<a href="{% url 'membaman:index' %}">Membaman Home Page</a>|
+<a href="{% url 'fees:feesindex' %}">Fees Home Page</a>|
+<a href="{% url 'members:membersindex' %}">Members Home Page</a>|
+
+<h2>Member View</h2>
+<p>Name: {{member_detail.first_last_name }}</p>
+<p>Membership Type: {{member_detail.membership_type }}</p>
+<p>Primary Caregiver: {{member_detail.primary_caregiver }}</p>
+<p>No longer attends ?: {{member_detail.no_longer_attends }}</p>

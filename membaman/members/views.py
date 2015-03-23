@@ -7,6 +7,10 @@ from .models import Family, Caregiver, Member, Person
 TEMP_ORG_NAME = 'Conversion Group'
 TEMP_ORG_ID = 45 
 
+class MemberDetail(DetailView):
+    model = Member
+    context_object_name = "member_detail"
+
 class MemberListView(ListView):
     model = Member
     template_name = 'members/member_list.html'

@@ -35,7 +35,7 @@
         </tr>
         {% for member in member_list %}
             <tr>
-                <td class = "famon">{{ member.last_first_name }}</td>
+                <td class = "famon"><a href="{% url 'members:member-view' member.id %}">{{ member.last_first_name }}</a></td>
                 <td class = "famon">{{ member.primary_caregiver}}</td>
                 <td class = "famon">{{ member.member}}</td>
             <tr>
