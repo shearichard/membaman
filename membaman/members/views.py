@@ -7,7 +7,7 @@ from .models import Family, Caregiver, Member, Person
 TEMP_ORG_NAME = 'Conversion Group'
 TEMP_ORG_ID = 45 
 
-class MemberListView(ListView):
+class MemberActiveListView(ListView):
     model = Member
     template_name = 'fees/member_list.html'
     context_object_name = "member_list"
@@ -17,7 +17,7 @@ class MemberListView(ListView):
         mem_active = Member.objects.filter(no_longer_attends=False)
         return mem_active
 
-class MemberNoMoreListView(ListView):
+class MemberNotActiveListView(ListView):
     model = Member
     template_name = 'fees/member_list.html'
     context_object_name = "member_list"
