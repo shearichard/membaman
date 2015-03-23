@@ -15,7 +15,8 @@ class MemberActiveListView(ListView):
 
     def get_queryset(self):
         mem_active = Member.objects.filter(no_longer_attends=False)
-        return mem_active
+        lst_mem_active = sorted(mem_active,  key=lambda m: m.last_first_name)
+        return lst_mem_active
 
 class MemberNotActiveListView(ListView):
     model = Member
@@ -31,37 +32,3 @@ class MemberNotActiveListView(ListView):
         lst_mem_not_active = sorted(mem_not_active,  key=lambda m: m.last_first_name)
         return mem_not_active
 
-#    def get_queryset(self):
-#        '''
-#        Provide sortation to the QS and add some extra columns
-#        to contain css class names to allow the template to
-#        output background colours which enhance the meaning of 
-#        the data
-#        '''
-#
-#        year_id = self.__default_yearid()
-#
-#        current_subyear_class = 0 
-#        current_member_class = 0    
-#        SUBYEAR_CSS_CLASSES = ['syon', 'syoff']
-#        MEMBER_CSS_CLASSES = ['memon', 'memoff']
-#
-#        desc_order = False
-#        qs_member = Member.objects.filter().order_by('name_family', 'name_given')
-#        
-#        if desc_order:
-#            qs_member = qs_member.reverse()
-#
-#        #Setup some flags to drive colour banding in template
-#        if qs_member:
-#            current_familyid = qs_member[0].family.id
-#            for mbr in qs_member:
-#                if mbr.subyear.id != current_subyearid:
-#                    current_familyid = mbr.subyear.id
-#                    current_family_class = 0 if current_family_class else 1
-#
-#                mbr.familycssclass = SUBYEAR_CSS_CLASSES[current_family_class]
-#
-#            
-#        return qs_member
-#
