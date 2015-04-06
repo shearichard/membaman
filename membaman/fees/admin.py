@@ -22,11 +22,11 @@ class IncomeAdmin(admin.ModelAdmin):
         list_filter = ['subyear__year__name', 'subyear__name']
 
 class AccountDebtAdmin(admin.ModelAdmin):
-        list_display = ['member', 'date', 'amount']
+        list_display = ['member', 'invoice_reference', 'date', 'amount']
         list_filter = ['member']
 
 class AccountPaymentAdmin(admin.ModelAdmin):
-        list_display = ['member', 'date', 'amount']
+        list_display = ['member', 'payment_reference', 'date', 'amount'] 
         list_filter = ['member']
 
 class ReferenceMapperAdmin(admin.ModelAdmin):

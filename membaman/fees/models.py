@@ -128,7 +128,7 @@ class AccountPayment(AccountEntry):
                                     choices=PAYMENT_TYPE_CHOICES,
                                     default=OTHER)
     payment_reference = models.CharField(max_length=10)
-    description = models.CharField(max_length=10, null=True, blank=True)
+    description = models.CharField(max_length=128, null=True, blank=True)
     notes = models.CharField(max_length=128, null=True, blank=True)
 
 class ReferenceMapper(models.Model):
@@ -140,7 +140,7 @@ class ReferenceMapper(models.Model):
     used
     '''
 
-    payment_reference_used = models.CharField(max_length=10)
+    payment_reference_used = models.CharField(max_length=128)
     payment_reference_intended = models.CharField(max_length=10)
     payment_origination_name = models.CharField(max_length=30)
 
