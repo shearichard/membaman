@@ -14,4 +14,6 @@ urlpatterns = patterns('',
     url(r'^member-list/', views.MemberActiveListView.as_view(), name='member-list'),
     url(r'^member-nomore-list/', views.MemberNotActiveListView.as_view(), name='member-nomore-list'),
     url(r'^member-view/(?P<pk>\d+)/$', views.MemberDetail.as_view(), name='member-view'),
+    url(r'^member-family-finance-list/', views.FamilyFinanceListView.as_view(), name='member-family-finance-list'),
+    url(r'^family-view/(?P<pk>\d+)/$', views.FamilyDetail.as_view(), name='family-view'),
 )

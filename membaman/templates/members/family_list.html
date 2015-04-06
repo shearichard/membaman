@@ -1,0 +1,46 @@
+{% extends "baselist.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<a href="{% url 'membaman:index' %}">Membaman Home Page</a>|
+<a href="{% url 'fees:feesindex' %}">Fees Home Page</a>|
+<a href="{% url 'members:membersindex' %}">Members Home Page</a>|
+
+<style>
+  table.bandedtab{
+    border-collapse: collapse;
+    border: 1px solid black;
+  }
+  table.bandedtab td, table.bandedtab th{
+    border: 1px solid black;
+    padding: 10px 20px;
+  }
+  table.bandedtab td.famon{
+    background-color: olive;
+  }
+  table.bandedtab td.famoff{
+    background-color: green;
+  }
+  
+</style>
+<h2>Families</h2>
+
+{% if family_list %}
+    <table class="bandedtab" id="member">
+        <tr>
+            <th>Street Address</th>
+            <th>Count of Members in Family</th>
+        </tr>
+        {% for family in family_list %}
+            <tr>
+                <td class = "famon"><a href="{% url 'members:family-view' family.id %}">{{ family.street_address }}</a></td>
+                <td class = "famon">{{ family.count_members }}</td>
+            <tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <h3>No Families</h3>
+    <p>No families found</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% load i18n %}
+
+
+<a href="{% url 'membaman:index' %}">Membaman Home Page</a>|
+<a href="{% url 'fees:feesindex' %}">Fees Home Page</a>|
+<a href="{% url 'members:membersindex' %}">Members Home Page</a>|
+
+<h2>Family View</h2>
+<p>Street Address: {{family_detail.street_address }}</p>
+<p>Suburb: {{family_detail.suburb }}</p>
+<p>City: {{family_detail.city }}</p>
+<p>Phone Fixed: {{family_detail.phone_fixed }}</p>
