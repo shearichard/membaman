@@ -6,6 +6,8 @@ from fees.models import SubYear
 from fees.models import Income
 from fees.models import AccountDebt
 from fees.models import AccountPayment
+from fees.models import ReferenceMapper
+
 
 class YearAdmin(admin.ModelAdmin):
         list_display = ['name', 'organisation', 'start', 'end']
@@ -27,8 +29,12 @@ class AccountPaymentAdmin(admin.ModelAdmin):
         list_display = ['member', 'date', 'amount']
         list_filter = ['member']
 
+class ReferenceMapperAdmin(admin.ModelAdmin):
+        list_filter = ['payment_reference_used','payment_reference_intended']
+
 admin.site.register(Year, YearAdmin)
 admin.site.register(SubYear, SubYearAdmin)
 admin.site.register(Income, IncomeAdmin)
 admin.site.register(AccountDebt, AccountDebtAdmin)
 admin.site.register(AccountPayment, AccountPaymentAdmin)
+admin.site.register(ReferenceMapper, ReferenceMapperAdmin)

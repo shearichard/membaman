@@ -130,3 +130,19 @@ class AccountPayment(AccountEntry):
     payment_reference = models.CharField(max_length=10)
     description = models.CharField(max_length=10, null=True, blank=True)
     notes = models.CharField(max_length=128, null=True, blank=True)
+
+class ReferenceMapper(models.Model):
+    '''
+    Where Payments have been made with the 'wrong' reference
+    (that is one which does not exist in an `AccountDebt` model
+    instance the `ReferenceMapper` object is used to map the 
+    reference that was used to the reference that should have been
+    used
+    '''
+
+    payment_reference_used = models.CharField(max_length=10)
+    payment_reference_intended = models.CharField(max_length=10)
+    payment_origination_name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return unicode(self.payment_reference_used) + " ( Should have been : " + unicode(self.payment_reference_intended) + " )"
