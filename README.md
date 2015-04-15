@@ -7,7 +7,7 @@ Its intended scope includes :
  * Membership registration within Organisations and sub-organisations
  * Invoicing and tracking of payments for regular payments
  * Production of PDF's to support the invoicing process
- * Production of CSV downloads to allow 
+ * Production of CSV downloads to allow data transfer out of Membaman to other systems
  * Ability to email members and members caregivers with both regular and ad-hoc emails
 
 Membaman is implemented in Django 1.7 and uses a Posgres database as a data repository.
