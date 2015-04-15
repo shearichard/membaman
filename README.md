@@ -1,6 +1,18 @@
 Introduction
 ------------
-This is membaman ! Beyond that I could not say.
+Membaman is membership management system intended for Youth and Sports Groups.
+
+Its intended scope includes :
+
+ * Membership registration within Organisations and sub-organisations
+ * Invoicing and tracking of payments for regular payments
+ * Production of PDF's to support the invoicing process
+ * Production of CSV downloads to allow 
+ * Ability to email members and members caregivers with both regular and ad-hoc emails
+
+Membaman is implemented in Django 1.7 and uses a Posgres database as a data repository.
+
+----
 
 Use of bookkeeper 
 --------
@@ -59,4 +71,4 @@ python manage.py runserver  --settings=membaman.settings.local 0.0.0.0:8000
 
 Version
 --------
-0.0.1
+0.2.0
