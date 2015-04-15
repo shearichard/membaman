@@ -1,6 +1,6 @@
 Introduction
 ------------
-Membaman is membership management system intended for Youth and Sports Groups.
+Membaman is a membership management system intended for Youth and Sports Groups.
 
 Its intended scope includes :
 
