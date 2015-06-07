@@ -20,7 +20,7 @@ class CaregiverAdmin(admin.ModelAdmin):
         search_fields = ['name_given', 'name_family']
 class MemberAdmin(admin.ModelAdmin):
         list_display = ['name_family', 'name_given', 'organisation', 'sub_organisation', 'membership_type', 'no_longer_attends']
-        list_filter = ['organisation', 'sub_organisation', 'family']
+        list_filter = ['no_longer_attends', 'organisation', 'sub_organisation', 'family']
         search_fields = ['name_given', 'name_family']
         actions = [print_start_year_invoices] 
 
