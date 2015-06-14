@@ -303,5 +303,7 @@ def print_start_year_invoices(modeladmin, request, queryset):
     print "print_start_year_invoices ends"
     return response        
         
+def print_balance_statements(modeladmin, request, queryset):
+    pass
 
 print_start_year_invoices.short_description = "Download Start Year invoices in a single zip file"
