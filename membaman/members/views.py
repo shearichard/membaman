@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView
 
 from django.core.urlresolvers import reverse
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, F
 from .models import Family, Caregiver, Member, Person 
 
 TEMP_ORG_NAME = 'Conversion Group'
@@ -11,6 +11,23 @@ TEMP_ORG_ID = 45
 class MemberDetail(DetailView):
     model = Member
     context_object_name = "member_detail"
+
+class MemberDebtorsListView(ListView):
+    model = Member
+    template_name = 'members/member_debtors_list.html'
+    context_object_name = "member_list"
+    paginate_by = 100
+
+    def get_queryset(self):
+
+        mem = Member.objects.filter(no_longer_attends=False)\
+                            .annotate(debt_total=Sum('accountentry__accountdebt__amount'))\
+                            .annotate(payment_total=Sum('accountentry__accountpayment__amount'))\
+                            .annotate(debt=Sum('accountentry__accountpayment__amount'))\
+                            .filter(debt_total__gt=0)\
+                            .exclude(payment_total__gte=F('debt_total'))
+
+        return mem
 
 class MemberFinanceListView(ListView):
     model = Member
