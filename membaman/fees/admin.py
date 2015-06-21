@@ -23,11 +23,11 @@ class IncomeAdmin(admin.ModelAdmin):
 
 class AccountDebtAdmin(admin.ModelAdmin):
         list_display = ['member', 'invoice_reference', 'date', 'amount']
-        list_filter = ['member']
+        list_filter = ['member', 'invoice_reference']
 
 class AccountPaymentAdmin(admin.ModelAdmin):
         list_display = ['member', 'payment_reference', 'date', 'amount'] 
-        list_filter = ['member']
+        list_filter = ['member', 'payment_reference']
 
 class ReferenceMapperAdmin(admin.ModelAdmin):
         list_filter = ['payment_reference_used','payment_reference_intended']
