@@ -20,6 +20,13 @@ class MemberDebtorsListView(ListView):
 
     def get_queryset(self):
 
+        #The last 'exclude' in the following filter seems to be excluding rows which
+        #should not be excluded. I'm not sure what it was there for in the first place
+        #or the full effect of removing it but it's certainly the case that there are
+        #people who owe money who won't appear in the output if that exclude is in place
+        #
+        #Update: I think the problem are those people who've never paid anything . Those
+        #people are excluded via that exclude and that is not a good idea.
         mem = Member.objects.filter(no_longer_attends=False)\
                             .annotate(debt_total=Sum('accountentry__accountdebt__amount'))\
                             .annotate(payment_total=Sum('accountentry__accountpayment__amount'))\
