@@ -73,6 +73,38 @@ browser.quit()
 display.stop()
 ```
 
+August 2015 Changes
+-------------------
+As of August 2015 this script no longer worked so I'm going to record here what I've done to try to make it work again as part of a broader effort in order to make Selenium be able to be used in Membaman. 
+
+I came across problems when trying to invoke the line in the above script which reads as follows
+```
+browser = webdriver.Firefox()
+```
+
+In looking into that problem I came across this script and so I tried that
+
+```
+from selenium import webdriver
+from selenium.webdriver.firefox.webdriver import FirefoxBinary
+import pyvirtualdisplay
+binary = FirefoxBinary()
+with pyvirtualdisplay.Display(visible=True):
+    if True:  # Set to False to use Chrome...
+        driver = webdriver.Firefox(None, binary)
+    else:
+        driver = webdriver.Chrome()
+    driver.get("http://www.google.com")
+    driver.quit()
+```
+Running that code resulted in a request to install 'xephyr'. When I tried to do that there no longer seems to be a package called xephyr but there is a xserver-xephyr so I installed that.
+```
+sudo apt-get install xserver-xephyr
+```
+
+
+
+
 Environment Variables
 -------------------
 Using `autoenv` to set a ENV VAR of SECRET_KEY when we cd into membaman. Longer term need a better solution.
