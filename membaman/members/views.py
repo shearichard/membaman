@@ -34,6 +34,12 @@ class MemberDebtorsListView(ListView):
                             .filter(debt_total__gt=0)\
                             .exclude(payment_total__gte=F('debt_total'))
 
+        mem = Member.objects.filter(no_longer_attends=False)\
+                            .annotate(debt_total=Sum('accountentry__accountdebt__amount'))\
+                            .annotate(payment_total=Sum('accountentry__accountpayment__amount'))\
+                            .annotate(debt=Sum('accountentry__accountpayment__amount'))\
+                            .filter(debt_total__gt=0)
+
         return mem
 
 class MemberFinanceListView(ListView):
