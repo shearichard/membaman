@@ -98,7 +98,6 @@ class IncomeListSubYearView(ListView):
 
         qs_subyear = SubYear.objects.filter(year__organisation__pk=TEMP_ORG_ID, start__gte=TEMP_CURR_YR_START, end__lte=TEMP_CURR_YR_FINISH).order_by('start')
         qs_mem = Member.objects.filter(organisation__pk=TEMP_ORG_ID).order_by( 'name_family', 'family__id','name_given')
-        import pdb; pdb.set_trace()
 
         for suby in qs_subyear:
             if suby.name not in dic_out:
